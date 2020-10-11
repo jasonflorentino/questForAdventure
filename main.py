@@ -4,6 +4,7 @@
 from time import sleep
 
 from resources import Game
+from resources import parseUserInput
 
 title = """
   Q U E S T  F O R  A D V E N T U R E  
@@ -42,7 +43,13 @@ def mainMenu():
 def main(game):
     if game == False:
         return False
-    print("the name of the game is " + game.name)
+    userInput = ""
+    while True:
+        userinput = parseUserInput(input("> ").lower())
+        if userinput == "quit":
+            break
+        else:
+            continue
     return True
 
 if __name__ == '__main__':
@@ -50,6 +57,6 @@ if __name__ == '__main__':
         display(title)      # Prints game title to screen
         game = mainMenu()   # Returns Game object or False if user quits
         play = main(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
-        if game == False or play == False:
+        if play == False:
             display(goodbye)
             break
