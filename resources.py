@@ -1,11 +1,9 @@
 #! Python3
 # resources.py - class and functions definitions for main game.
 
-from gameData import gameData
+from time import sleep
 
-def parseUserInput(userInput):
-    text = userInput
-    return text
+from gameData import gameData
 
 class Game(object):
     def __init__(self, name):
@@ -13,6 +11,10 @@ class Game(object):
         self.player = globals()['gameData']['player']
         self.items = globals()['gameData']['items']
         self.places = globals()['gameData']['places']
+        self.turnCount = 0
+
+    def incrementTurn(self):
+        self.turnCount += 1
 
     def changeName(self, newName):
         self.name = newName
@@ -25,6 +27,20 @@ class Game(object):
         
     def printCurrentLocation(self):
         print('Currently you are in ' + self.player['currentLocation'])
+    
+    def beginning(self):
+        text = [
+            "\nYou are an experienced adventurer who has saved kingdoms and rescued damsels in distress. You have slayed dragons and conquered sorcerers and have received generous rewards from Kings and villagers alike for your heroic feats. Now you are looking for your next adventure since you have grown weary of living in the lap of luxury.",
+            "\nAnd so your quest begins...the quest for honour, glory, and fair maidens...",
+            "\nThe Quest...",
+            "\n   for Adventure!"
+        ]
+        for line in text:
+            for letter in line:
+                print(letter, end='', flush=True)
+                # sleep(.02) # Uncomment for slow printing!
+            input()
+        self.turnCount += 1
 
 # game = Game('test')
 # game.printCurrentLocation()
