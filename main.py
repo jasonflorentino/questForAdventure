@@ -1,7 +1,7 @@
 #! Python3
 # main.py - Runs the main game program
 
-from mainFunc import display
+from mainFunc import write
 from mainFunc import mainMenu
 from mainFunc import main
 
@@ -14,9 +14,9 @@ goodbye = "Farewell, adventure seeker.\n"
 
 if __name__ == '__main__':
     while True:
-        display(title)      # Prints game title to screen
+        write(title)      # Prints game title to screen
         game = mainMenu()   # Returns Game object or False if user quits
         play = main(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
         if play == False:
-            display(goodbye)
+            write(goodbye)
             break

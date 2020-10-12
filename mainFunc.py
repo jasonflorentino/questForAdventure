@@ -5,10 +5,10 @@ from time import sleep
 
 from resources import Game
 
-def display(text):
+def write(text):
     for letter in text:
         print(letter, end='', flush=True)
-        sleep(.02)
+        # sleep(.02) # Uncomment for slow printing
 
 def getMenuInput():
     choice = ""
@@ -35,18 +35,30 @@ def mainMenu():
 def main(game):
     if game == False:
         return False
-    userInput = ""
+    action = ""
     while True:
-        print('turn count = ' + str(game.turnCount))
+        print('turn #' + str(game.turnCount)) # DEBUG
         if game.turnCount == 0:
             game.beginning()
-        userinput = parseUserInput(input("> ").lower())
-        if userinput == "quit":
+        action = turn()
+        game.turnCount += 1
+        if action == "quit":
             break
         else:
             pass
     return True
 
 def parseUserInput(userInput):
-    text = userInput
-    return text
+    actionWord = userInput
+    # Identify input
+    # check if valid command
+    # return INVALID if not
+    return actionWord
+    
+def turn():
+    turnAction = parseUserInput(input("\n> ").lower())
+    # receives valid command
+    # check if command is actionable
+    # return can't do if not
+    # otherwise, execute action
+    return turnAction
