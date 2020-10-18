@@ -47,7 +47,95 @@ class Game(object):
         write(self.places["chamber"]["longDesc"] + "\n")
         self.turnCount += 1
 
-# game = Game('test')
-# game.printCurrentLocation()
-# game.changeCurrentLocation(game.places['hallway1']['screenName'])
-# game.printCurrentLocation()
+    def north():
+        print("Game class DEBUG: YOU WENT NORTH!")
+
+    def south():
+        print("Game class DEBUG: YOU WENT south!")
+
+    def east():
+        print("Game class DEBUG: YOU WENT east!")
+
+    def west():
+        print("Game class DEBUG: YOU WENT west!")
+
+    def help():
+        print("Game class DEBUG: action success: help")
+
+    def inventory():
+        print("Game class DEBUG: action success: inventory")
+    
+    def look():
+        print("Game class DEBUG: action success: look")
+
+    def quit():
+        youSure = input("Are you sure you want to quit? (y/n)\n> ").lower()
+        if youSure == "y" or youSure == "yes":
+            print("Returning to main menu...")
+            return "quit"
+        else:
+            return "no-quit"
+        # print("action success - Game class - quit()")
+
+    def xyzzy():
+        print("Game class DEBUG: action success: xyzzy")
+
+    def cast():
+        print("Game class DEBUG: action success: cast")
+    
+    def close():
+        print("Game class DEBUG: action success: close")
+
+    def drop():
+        print("Game class DEBUG: action success: drop")
+
+    def place():
+        print("Game class DEBUG: action success: place")
+
+    def take():
+        print("Game class DEBUG: action success: take")
+
+    def talk():
+        print("Game class DEBUG: action success: talk")
+
+    def smell():
+        print("Game class DEBUG: action success: smell")
+
+    def open():
+        print("Game class DEBUG: action success: open")
+
+    def use():
+        print("Game class DEBUG: action success: use")
+
+    def examine():
+        print("Game class DEBUG: action success: examine")
+
+    def move():
+        print("Game class DEBUG: action success: move")
+
+    cmd = {
+        "north":north,
+        "south":south,
+        "east":east,
+        "west":west,
+        "help":help,
+        "inventory":inventory,
+        "look":look,
+        "quit":quit,
+        "xyzzy":xyzzy,
+        "cast":cast,
+        "close":close,
+        "drop":drop,
+        "place":place,
+        "take":take,
+        "talk":talk,
+        "smell":smell,
+        "open":open,
+        "use":use,
+        "examine":examine,
+        "move":move,
+        }
+
+    def directInput(self, turnAction):
+        action = self.cmd[turnAction]()
+        return action
