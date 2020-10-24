@@ -37,10 +37,10 @@ def main(game):
         return False
     action = ""
     while True:
-        print('turn #' + str(game.turnCount) + " - main()") # DEBUG
+        print('main(): turn #' + str(game.turnCount)) # DEBUG
         if game.turnCount == 0:
             game.beginning()
-        action = turn(game)
+        action = turn(game)     # THE TURN
         game.turnCount += 1
         if action == "quit":
             break
@@ -48,32 +48,12 @@ def main(game):
             pass
     return True
 
-def parseUserInput(game, userInput):
-    if len(userInput) == 0:
-        return "invalid"
-    inputlist = userInput.split()
-    actionWord = ""
-    if inputlist[0] in game.cmd:
-        actionWord = inputlist[0]
-    else:
-        actionWord = "invalid"
-    return actionWord
-
-def youCantDoThat():
-    print("Huh?")
-
-# def directAction(turnAction):
-#     if turnAction == "north":
-#         game.north()
-#     elif turnAction == "south":
-#         game.south()
-#     elif 
-
 def turn(game):
-    turnAction = parseUserInput(game, input("\n> ").lower())
-    print(f"user input: {turnAction} - turn()")    # DEBUG
+    turnAction = validateInput(game, input("\n> ").lower())       # USER INPUT
+    # print(f"user input: {turnAction} - turn()")    # DEBUG
+    print()
     if turnAction == "invalid":
-        youCantDoThat()
+        notAValidAction()
     else:
         turnAction = game.directInput(turnAction)
         # check if second input needed
@@ -84,3 +64,17 @@ def turn(game):
                 # check first action word
                 # then check object if exists
     return turnAction
+
+def validateInput(game, userInput):
+    if len(userInput) == 0:
+        return "invalid"
+    inputlist = userInput.split()
+    actionWord = ""
+    if inputlist[0] in game.cmd:
+        actionWord = inputlist[0]
+    else:
+        actionWord = "invalid"
+    return actionWord
+
+def notAValidAction():
+    print("Huh?")

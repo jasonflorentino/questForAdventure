@@ -8,12 +8,13 @@ from gameData import gameData
 def write(text):
     for letter in text:
         print(letter, end='', flush=True)
-        # sleep(.02) # Uncomment for slow printing
+        # sleep(.02)      # Uncomment for slow printing
 
 class Game(object):
     def __init__(self, name):
         self.name = name
-        self.player = globals()['gameData']['player']
+        self.currentLocation = "chamber"
+        self.inventory = []
         self.items = globals()['gameData']['items']
         self.places = globals()['gameData']['places']
         self.turnCount = 0
@@ -28,10 +29,10 @@ class Game(object):
         print('The game name is ' + self.name)
 
     def changeCurrentLocation(self, newLocation):
-        self.player['currentLocation'] = newLocation
+        self.currentLocation = newLocation
         
     def printCurrentLocation(self):
-        print('[%s]' % self.player['currentLocation'])
+        print('[%s]' % self.places[self.currentLocation]['screenName'])
     
     def beginning(self):
         text = [
@@ -45,30 +46,48 @@ class Game(object):
             input()
         self.printCurrentLocation()
         write(self.places["chamber"]["longDesc"] + "\n")
+        self.places["chamber"]["visits"] += 1
         self.turnCount += 1
 
-    def north():
-        print("Game class DEBUG: YOU WENT NORTH!")
+    def north(self):
+        self.currentLocation = self.places[self.currentLocation]["north"]
+        print("You go north...\n")
+        self.look()
+        self.places[self.currentLocation]["visits"] += 1
 
-    def south():
-        print("Game class DEBUG: YOU WENT south!")
+    def south(self):
+        self.currentLocation = self.places[self.currentLocation]["south"]
+        print("You go south...\n")
+        self.look()
+        self.places[self.currentLocation]["visits"] += 1
 
-    def east():
-        print("Game class DEBUG: YOU WENT east!")
+    def east(self):
+        self.currentLocation = self.places[self.currentLocation]["east"]
+        print("You go east...\n")
+        self.look()
+        self.places[self.currentLocation]["visits"] += 1
 
-    def west():
-        print("Game class DEBUG: YOU WENT west!")
+    def west(self):
+        self.currentLocation = self.places[self.currentLocation]["west"]
+        print("You go west...\n")
+        self.look()
+        self.places[self.currentLocation]["visits"] += 1
 
-    def help():
+    def help(self):
         print("Game class DEBUG: action success: help")
 
-    def inventory():
+    def inventory(self):
         print("Game class DEBUG: action success: inventory")
-    
-    def look():
-        print("Game class DEBUG: action success: look")
 
-    def quit():
+    def look(self):
+        if self.places[self.currentLocation]["visits"] == 0:
+            self.printCurrentLocation()
+            print(self.places[self.currentLocation]["longDesc"])
+        else:
+            self.printCurrentLocation()
+            print(self.places[self.currentLocation]["shortDesc"])
+
+    def quit(self):
         youSure = input("Are you sure you want to quit? (y/n)\n> ").lower()
         if youSure == "y" or youSure == "yes":
             print("Returning to main menu...")
@@ -77,40 +96,40 @@ class Game(object):
             return "no-quit"
         # print("action success - Game class - quit()")
 
-    def xyzzy():
+    def xyzzy(self):
         print("Game class DEBUG: action success: xyzzy")
 
-    def cast():
+    def cast(self):
         print("Game class DEBUG: action success: cast")
     
-    def close():
+    def close(self):
         print("Game class DEBUG: action success: close")
 
-    def drop():
+    def drop(self):
         print("Game class DEBUG: action success: drop")
 
-    def place():
+    def place(self):
         print("Game class DEBUG: action success: place")
 
-    def take():
+    def take(self):
         print("Game class DEBUG: action success: take")
 
-    def talk():
+    def talk(self):
         print("Game class DEBUG: action success: talk")
 
-    def smell():
+    def smell(self):
         print("Game class DEBUG: action success: smell")
 
-    def open():
+    def open(self):
         print("Game class DEBUG: action success: open")
 
-    def use():
+    def use(self):
         print("Game class DEBUG: action success: use")
 
-    def examine():
+    def examine(self):
         print("Game class DEBUG: action success: examine")
 
-    def move():
+    def move(self):
         print("Game class DEBUG: action success: move")
 
     cmd = {
@@ -137,5 +156,5 @@ class Game(object):
         }
 
     def directInput(self, turnAction):
-        action = self.cmd[turnAction]()
+        action = self.cmd[turnAction](self)
         return action

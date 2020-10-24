@@ -1,9 +1,4 @@
 gameData = {
-    "player": {
-        "game": "new",
-        "currentLocation": "Chamber",
-        "inventory": []
-    },
     "places": {
         "chamber": {
             "screenName": "Chamber",
@@ -15,7 +10,7 @@ gameData = {
             "locked": False,
             "odour": False,
             "shortDesc": "You are in your sleeping chamber. To the West is the Hallway.",
-            "longDesc": "\nYou wake up from a restless night's sleep.\nSince you were also knighted for ridding the bog of a bog monster,\nyou could say you woke from a knight's restless night's sleep.\nYou are in your sleeping chamber.\nThere is a door to the West that leads to the Hallway.\nYou should probably get dressed before going out there."
+            "longDesc": "You wake up from a restless night's sleep.\nSince you were also knighted for ridding the bog of a bog monster,\nyou could say you woke from a knight's restless night's sleep.\nYou are in your sleeping chamber.\nThere is a door to the West that leads to the Hallway.\nYou should probably get dressed before going out there."
         },
         "hallway1": {
             "screenName": "Hallway",
