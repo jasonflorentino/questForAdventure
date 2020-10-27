@@ -49,29 +49,53 @@ class Game(object):
         self.places["chamber"]["visits"] += 1
         self.turnCount += 1
 
+    def isRealItem(self, item):
+        if item in self.items:
+            return True
+        else:
+            return False
+
+    def inSameRoom(self, item):
+        if self.items[item]['location'] == self.currentLocation:
+            return True
+        else:
+            return False
+
     def north(self):
-        self.currentLocation = self.places[self.currentLocation]["north"]
-        print("You go north...\n")
-        self.look()
-        self.places[self.currentLocation]["visits"] += 1
+        if self.places[self.currentLocation]["north"]:
+            self.currentLocation = self.places[self.currentLocation]["north"]
+            print("You go north...\n")
+            self.look()
+            self.places[self.currentLocation]["visits"] += 1
+        else:
+            print("You can't go that way.")
 
     def south(self):
-        self.currentLocation = self.places[self.currentLocation]["south"]
-        print("You go south...\n")
-        self.look()
-        self.places[self.currentLocation]["visits"] += 1
+        if self.places[self.currentLocation]["south"]:
+            self.currentLocation = self.places[self.currentLocation]["south"]
+            print("You go south...\n")
+            self.look()
+            self.places[self.currentLocation]["visits"] += 1
+        else:
+            print("You can't go that way.")
 
     def east(self):
-        self.currentLocation = self.places[self.currentLocation]["east"]
-        print("You go east...\n")
-        self.look()
-        self.places[self.currentLocation]["visits"] += 1
+        if self.places[self.currentLocation]["east"]:
+            self.currentLocation = self.places[self.currentLocation]["east"]
+            print("You go east...\n")
+            self.look()
+            self.places[self.currentLocation]["visits"] += 1
+        else:
+            print("You can't go that way.")
 
     def west(self):
-        self.currentLocation = self.places[self.currentLocation]["west"]
-        print("You go west...\n")
-        self.look()
-        self.places[self.currentLocation]["visits"] += 1
+        if self.places[self.currentLocation]["west"]:
+            self.currentLocation = self.places[self.currentLocation]["west"]
+            print("You go west...\n")
+            self.look()
+            self.places[self.currentLocation]["visits"] += 1
+        else:
+            print("You can't go that way.")
 
     def help(self):
         print("Game class DEBUG: action success: help")
@@ -94,7 +118,6 @@ class Game(object):
             return "quit"
         else:
             return "no-quit"
-        # print("action success - Game class - quit()")
 
     def xyzzy(self):
         print("Game class DEBUG: action success: xyzzy")
@@ -127,10 +150,25 @@ class Game(object):
         print("Game class DEBUG: action success: use")
 
     def examine(self):
-        print("Game class DEBUG: action success: examine")
+        obj = input("What do you want to examine?\n- ")
+        if not self.isRealItem(obj):
+            print(f"{obj} doesn't exist.")
+            return obj
+        elif not self.inSameRoom(obj):
+            print(f"There is no {obj} here.")
+            return obj
+        else:
+            print(f"You examine {self.items[obj]['screenName']}.")
+            print(self.items[obj]['desc'])
+            return obj
 
     def move(self):
-        print("Game class DEBUG: action success: move")
+        direction = input("In which direction do you want to go?\n- ")
+        try:
+            self.directInput(direction)
+        except:
+            print("I don't understand")
+        # print("Game class DEBUG: action success: move")
 
     cmd = {
         "north":north,

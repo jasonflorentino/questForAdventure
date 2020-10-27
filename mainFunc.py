@@ -37,7 +37,7 @@ def main(game):
         return False
     action = ""
     while True:
-        print('main(): turn #' + str(game.turnCount)) # DEBUG
+        # print('main(): turn #' + str(game.turnCount)) # DEBUG
         if game.turnCount == 0:
             game.beginning()
         action = turn(game)     # THE TURN
