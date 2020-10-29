@@ -56,13 +56,6 @@ def turn(game):
         notAValidAction()
     else:
         turnAction = game.directInput(turnAction)
-        # check if second input needed
-        # if true, get second input
-        # if false pass
-        # execute actionword
-            # check if action is possible
-                # check first action word
-                # then check object if exists
     return turnAction
 
 def validateInput(game, userInput):

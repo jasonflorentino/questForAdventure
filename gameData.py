@@ -61,6 +61,42 @@ gameData = {
             'closeable': False,
             'open': False,
             'contents': []
-        }
+        },
+        "mirror": {
+            "screenName": "the mirror",
+            "location": "chamber",
+            "visible": True,
+            "desc": "You can't help but wonder if the chain-mail makes your butt look big.",
+            'odour': False,
+            'takeable': False,
+            'takeResp': False,
+            'useable': True,
+            'useResp': "You can't help but wonder if the chain-mail makes your butt look big.",
+            'inUse': False,
+            'reUseable': True,
+            'dropResp': False,
+            'container': False,
+            'closeable': False,
+            'open': False,
+            'contents': []
+            },
+        "chamber pot": {
+            "screenName": "the chamber pot",
+            "location": "chamber",
+            "visible": True,
+            "desc": "Why would you want to look at that? Gross.",
+            'odour': "Urrgh. Why would you do that? You know what goes in there!",
+            'takeable': True,
+            'takeResp': "Why? I guess you could gross out your enemies with this.",
+            'useable': True,
+            'useResp': "You feel ... relieved.",
+            'inUse': False,
+            'reUseable': False,
+            'dropResp': False,
+            'container': True,
+            'closeable': False,
+            'open': True,
+            'contents': []
+            },
     }
 }

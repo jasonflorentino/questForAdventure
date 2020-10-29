@@ -61,6 +61,12 @@ class Game(object):
         else:
             return False
 
+    def isTakeable(self, item):
+        if self.items[item]['takeable']:
+            return True
+        else:
+            return False
+
     def north(self):
         if self.places[self.currentLocation]["north"]:
             self.currentLocation = self.places[self.currentLocation]["north"]
@@ -69,6 +75,7 @@ class Game(object):
             self.places[self.currentLocation]["visits"] += 1
         else:
             print("You can't go that way.")
+        return "north"
 
     def south(self):
         if self.places[self.currentLocation]["south"]:
@@ -78,6 +85,7 @@ class Game(object):
             self.places[self.currentLocation]["visits"] += 1
         else:
             print("You can't go that way.")
+        return "south"
 
     def east(self):
         if self.places[self.currentLocation]["east"]:
@@ -87,6 +95,7 @@ class Game(object):
             self.places[self.currentLocation]["visits"] += 1
         else:
             print("You can't go that way.")
+        return "east"
 
     def west(self):
         if self.places[self.currentLocation]["west"]:
@@ -96,9 +105,11 @@ class Game(object):
             self.places[self.currentLocation]["visits"] += 1
         else:
             print("You can't go that way.")
+        return "west"
 
     def help(self):
-        print("Game class DEBUG: action success: help")
+        print("You call for help. Nobody hears.")
+        return "help"
 
     def inventory(self):
         print("Game class DEBUG: action success: inventory")
@@ -110,6 +121,7 @@ class Game(object):
         else:
             self.printCurrentLocation()
             print(self.places[self.currentLocation]["shortDesc"])
+        return "look"
 
     def quit(self):
         youSure = input("Are you sure you want to quit? (y/n)\n> ").lower()
@@ -135,7 +147,18 @@ class Game(object):
         print("Game class DEBUG: action success: place")
 
     def take(self):
-        print("Game class DEBUG: action success: take")
+        obj = input("What do you want to take?\n- ")
+        if not self.isRealItem(obj):
+            print(f"{obj} doesn't exist.")
+            return ("take ", obj)
+        elif not self.inSameRoom(obj):
+            print(f"There is no {obj} here.")
+            return ("take ", obj)
+        elif not self.isTakeable(obj):
+            print("You can't take that")
+            return ("take ", obj)
+        else:
+            print(f"You took {self.items[obj]['screenName']}.")
 
     def talk(self):
         print("Game class DEBUG: action success: talk")
@@ -153,14 +176,14 @@ class Game(object):
         obj = input("What do you want to examine?\n- ")
         if not self.isRealItem(obj):
             print(f"{obj} doesn't exist.")
-            return obj
+            return ("examine ", obj)
         elif not self.inSameRoom(obj):
             print(f"There is no {obj} here.")
-            return obj
+            return ("examine ", obj)
         else:
             print(f"You examine {self.items[obj]['screenName']}.")
             print(self.items[obj]['desc'])
-            return obj
+            return ("examine ", obj)
 
     def move(self):
         direction = input("In which direction do you want to go?\n- ")
@@ -168,7 +191,7 @@ class Game(object):
             self.directInput(direction)
         except:
             print("I don't understand")
-        # print("Game class DEBUG: action success: move")
+        return "move"
 
     cmd = {
         "north":north,
