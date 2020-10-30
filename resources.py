@@ -66,6 +66,17 @@ class Game(object):
             return True
         else:
             return False
+    
+    def addToInventory(self, item):
+        self.inventory.append(item)
+        self.items[item]["location"] = "inventory"
+        print(f"{item.capitalize()} was added to inventory.")
+
+        """
+
+        COMMANDS
+        
+        """
 
     def north(self):
         if self.places[self.currentLocation]["north"]:
@@ -112,7 +123,8 @@ class Game(object):
         return "help"
 
     def inventory(self):
-        print("Game class DEBUG: action success: inventory")
+        print("INVENTORY:")
+        print(self.inventory)
 
     def look(self):
         if self.places[self.currentLocation]["visits"] == 0:
@@ -159,6 +171,7 @@ class Game(object):
             return ("take ", obj)
         else:
             print(f"You took {self.items[obj]['screenName']}.")
+            self.addToInventory(obj)
 
     def talk(self):
         print("Game class DEBUG: action success: talk")
