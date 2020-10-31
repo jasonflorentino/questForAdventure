@@ -4,6 +4,7 @@
 from time import sleep
 
 from resources import Game
+import player
 
 def write(text):
     for letter in text:

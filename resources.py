@@ -4,6 +4,7 @@
 from time import sleep
 
 from gameData import gameData
+import gameObjects
 
 def write(text):
     for letter in text:
@@ -13,7 +14,7 @@ def write(text):
 class Game(object):
     def __init__(self, name):
         self.name = name
-        self.currentLocation = "chamber"
+        self.currentLocation = gameObjects.chamber
         self.inventory = []
         self.items = globals()['gameData']['items']
         self.places = globals()['gameData']['places']
@@ -98,25 +99,35 @@ class Game(object):
             print("You can't go that way.")
         return "south"
 
+    # def east(self):
+    #     if self.places[self.currentLocation]["east"]:
+    #         self.currentLocation = self.places[self.currentLocation]["east"]
+    #         print("You go east...\n")
+    #         self.look()
+    #         self.places[self.currentLocation]["visits"] += 1
+    #     else:
+    #         print("You can't go that way.")
+    #     return "east"
     def east(self):
-        if self.places[self.currentLocation]["east"]:
-            self.currentLocation = self.places[self.currentLocation]["east"]
-            print("You go east...\n")
-            self.look()
-            self.places[self.currentLocation]["visits"] += 1
-        else:
-            print("You can't go that way.")
-        return "east"
+        self.currentLocation = self.currentLocation.east
+        print("You go east.")
+        print(f"[{self.currentLocation.name}]")
+        print(self.currentLocation.shortDesc)
 
+    # def west(self):
+    #     if self.places[self.currentLocation]["west"]:
+    #         self.currentLocation = self.places[self.currentLocation]["west"]
+    #         print("You go west...\n")
+    #         self.look()
+    #         self.places[self.currentLocation]["visits"] += 1
+    #     else:
+    #         print("You can't go that way.")
+    #     return "west"
     def west(self):
-        if self.places[self.currentLocation]["west"]:
-            self.currentLocation = self.places[self.currentLocation]["west"]
-            print("You go west...\n")
-            self.look()
-            self.places[self.currentLocation]["visits"] += 1
-        else:
-            print("You can't go that way.")
-        return "west"
+        self.currentLocation = self.currentLocation.west
+        print("You go west.")
+        print(f"[{self.currentLocation.name}]")
+        print(self.currentLocation.shortDesc)
 
     def help(self):
         print("You call for help. Nobody hears.")
@@ -232,3 +243,8 @@ class Game(object):
     def directInput(self, turnAction):
         action = self.cmd[turnAction](self)
         return action
+
+test = Game("test")
+print(test.currentLocation.name)
+test.west()
+test.east()
