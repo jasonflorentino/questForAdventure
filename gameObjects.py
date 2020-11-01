@@ -1,11 +1,11 @@
 # python3
 # gameObjects.py
 
-"""
+"""____________________
 
-CLASS DEFINITIONS
+    CLASS DEFINITIONS
 
-"""
+____________________"""
 
 class Place(object):
     def __init__(self, name="default", visits=0, north=False, east=False,
@@ -23,6 +23,19 @@ class Place(object):
         self.longDesc = longDesc
         self.contents = contents
     
+    def printContents(self):
+        if len(self.contents) == 0:
+            print("Nothing of interest.")
+        else:
+            for item in self.contents:
+                print(item.name.title())
+    
+    def printLongDesc(self):
+        print(self.longDesc)
+    
+    def printShortDesc(self):
+        print(self.shortDesc)
+
 class Item(object):
     def __init__(self, name="default", screenName="default", location="default", 
     visible=True, desc="default", odour=False, takeable=True, takeResp = "default",
@@ -45,6 +58,12 @@ class Item(object):
         self.closeable = closeable
         self.isOpen = isOpen
         self.contents = contents
+
+    def printDesc(self):
+        print(self.desc)
+    
+    def printName(self):
+        print(self.name.title())
     
     def use(self):
         if self.use == False:
@@ -88,21 +107,27 @@ class Item(object):
             print(f"You put {item.name} in the {self.name}.")
             self.contents.append(item)
 
-"""
+"""_________________
 
-CREATE INSTANCES
+    CREATE ROOMS
 
-"""
+_________________"""
 
 chamber = Place("Chamber", 0, False, False, False, False, False, False,
 "You are in your sleeping chamber. To the West is the Hallway.",
 "You wake up from a restless night's sleep.\nSince you were also knighted for ridding the bog of a bog monster,\nyou could say you woke from a knight's restless night's sleep.\nYou are in your sleeping chamber.\nThere is a door to the West that leads to the Hallway.\nYou should probably get dressed before going out there.",
-[])
+)
 
 hallway1 = Place("Hallway", 0, False, False, False, False, False, False,
 "Mounted animal heads stare down at you with their beady, beady eyes. I think the boar just winked at you. The front door is further West. The Weapons Room is to the North. And there are a bunch of other doors that lead you to unadventurous parts of the house.",
 "The long Hallway leads to the front door in the West. The walls are covered in hunting trophies and lavish gifts from far away. There is a door that leads to the Weapons Room to the North, as well as a bunch of other doors that lead you to unadventurous parts of the house that are definitely not worthwhile going to.",
 [])
+
+"""_________________
+
+    CREATE ITEMS
+
+_________________"""
 
 bed = Item("bed", "bed", "chamber", True,
 "It is comfortable and warm. No place for an Adventurer like yourself!",
@@ -126,16 +151,22 @@ True,
 "You feel ... relieved.",
 False, False, False, True, False, True, [])
 
-"""
+"""____________________________
 
-ASSIGN ITEMS & DIRECTIONS
+    ASSIGN ITEMS & DIRECTIONS
 
-"""
+____________________________"""
 
 for item in (bed, mirror, chamberPot):
     chamber.contents.append(item)
 
+# hallway1.contents.append(chamberPot)
+
 chamber.west = hallway1
 hallway1.east = chamber
 
-# print(chamber.contents[0].name)
+allItems = {
+    "bed": bed,
+    "mirror": mirror,
+    "chamber pot": chamberPot,
+}

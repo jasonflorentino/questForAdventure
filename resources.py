@@ -31,9 +31,6 @@ class Game(object):
 
     def changeCurrentLocation(self, newLocation):
         self.currentLocation = newLocation
-        
-    def printCurrentLocation(self):
-        print('[%s]' % self.places[self.currentLocation]['screenName'])
     
     def beginning(self):
         text = [
@@ -45,9 +42,10 @@ class Game(object):
         for line in text:
             write(line)
             input()
-        self.printCurrentLocation()
-        write(self.places["chamber"]["longDesc"] + "\n")
-        self.places["chamber"]["visits"] += 1
+        print(f"[{self.currentLocation.name.title()}]")
+        print(self.currentLocation.longDesc)
+        print()
+        self.currentLocation.visits += 1
         self.turnCount += 1
 
     def isRealItem(self, item):
@@ -80,76 +78,68 @@ class Game(object):
         """
 
     def north(self):
-        if self.places[self.currentLocation]["north"]:
-            self.currentLocation = self.places[self.currentLocation]["north"]
+        if self.currentLocation.north:
+            self.currentLocation = self.currentLocation.north
             print("You go north...\n")
             self.look()
-            self.places[self.currentLocation]["visits"] += 1
+            self.currentLocation.visits += 1
         else:
             print("You can't go that way.")
-        return "north"
 
     def south(self):
-        if self.places[self.currentLocation]["south"]:
-            self.currentLocation = self.places[self.currentLocation]["south"]
+        if self.currentLocation.south:
+            self.currentLocation = self.currentLocation.south
             print("You go south...\n")
             self.look()
-            self.places[self.currentLocation]["visits"] += 1
+            self.currentLocation.visits += 1
         else:
             print("You can't go that way.")
-        return "south"
 
-    # def east(self):
-    #     if self.places[self.currentLocation]["east"]:
-    #         self.currentLocation = self.places[self.currentLocation]["east"]
-    #         print("You go east...\n")
-    #         self.look()
-    #         self.places[self.currentLocation]["visits"] += 1
-    #     else:
-    #         print("You can't go that way.")
-    #     return "east"
     def east(self):
-        self.currentLocation = self.currentLocation.east
-        print("You go east.")
-        print(f"[{self.currentLocation.name}]")
-        print(self.currentLocation.shortDesc)
+        if self.currentLocation.east:
+            self.currentLocation = self.currentLocation.east
+            print("You go east...\n")
+            self.look()
+            self.currentLocation.visits += 1
+        else:
+            print("You can't go that way.")
 
-    # def west(self):
-    #     if self.places[self.currentLocation]["west"]:
-    #         self.currentLocation = self.places[self.currentLocation]["west"]
-    #         print("You go west...\n")
-    #         self.look()
-    #         self.places[self.currentLocation]["visits"] += 1
-    #     else:
-    #         print("You can't go that way.")
-    #     return "west"
     def west(self):
-        self.currentLocation = self.currentLocation.west
-        print("You go west.")
-        print(f"[{self.currentLocation.name}]")
-        print(self.currentLocation.shortDesc)
+        if self.currentLocation.west:
+            self.currentLocation = self.currentLocation.west
+            print("You go west...\n")
+            self.look()
+            self.currentLocation.visits += 1
+        else:
+            print("You can't go that way.")
 
     def help(self):
         print("You call for help. Nobody hears.")
         return "help"
 
     def inventory(self):
-        print("INVENTORY:")
-        print(self.inventory)
+        if len(self.inventory) == 0:
+            print("There is nothing in your inventory.")
+        else:
+            print("INVENTORY:")
+            for itemObj in self.inventory:
+                itemObj.printName()
 
     def look(self):
-        if self.places[self.currentLocation]["visits"] == 0:
-            self.printCurrentLocation()
-            print(self.places[self.currentLocation]["longDesc"])
+        room = self.currentLocation
+        print(f"[{room.name}]")
+        if room.visits == 0:
+            room.printLongDesc()
         else:
-            self.printCurrentLocation()
-            print(self.places[self.currentLocation]["shortDesc"])
-        return "look"
+            room.printShortDesc()
+        print("You see:")
+        room.printContents()
 
     def quit(self):
         youSure = input("Are you sure you want to quit? (y/n)\n> ").lower()
         if youSure == "y" or youSure == "yes":
             print("Returning to main menu...")
+            time.sleep(0.5)
             return "quit"
         else:
             return "no-quit"
@@ -164,25 +154,45 @@ class Game(object):
         print("Game class DEBUG: action success: close")
 
     def drop(self):
-        print("Game class DEBUG: action success: drop")
+        item = input("What do you want to drop?\n- ")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if item is a real item
+            print(f"I don't know what that is.")
+        elif itemObj not in self.inventory:    # Item exists, now check if in inventory
+            print(f"There is no {item} in your inventory.")
+        else:   # all checks pass -- take item
+            self.inventory.remove(itemObj)
+            self.currentLocation.contents.append(itemObj)
+            if itemObj.dropResp:
+                print(itemObj.dropResp)
+            else:
+                print(f"You dropped the {item}.")
 
     def place(self):
         print("Game class DEBUG: action success: place")
 
     def take(self):
-        obj = input("What do you want to take?\n- ")
-        if not self.isRealItem(obj):
-            print(f"{obj} doesn't exist.")
-            return ("take ", obj)
-        elif not self.inSameRoom(obj):
-            print(f"There is no {obj} here.")
-            return ("take ", obj)
-        elif not self.isTakeable(obj):
-            print("You can't take that")
-            return ("take ", obj)
-        else:
-            print(f"You took {self.items[obj]['screenName']}.")
-            self.addToInventory(obj)
+        item = input("What do you want to take?\n- ")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if item is a real item
+            print(f"There is no {item}.")
+        elif itemObj not in self.currentLocation.contents:    # Item exists, now check if in same room
+            print(f"There is no {item} here.")
+        elif itemObj.takeable == False:   # Checks if item is takeable
+            print(f"This ought to stay right here.")
+        else:   # all checks pass -- take item
+            self.inventory.append(itemObj)
+            self.currentLocation.contents.remove(itemObj)
+            if itemObj.takeResp:
+                print(itemObj.takeResp)
+            else:
+                print(f"You took the {item}.")
 
     def talk(self):
         print("Game class DEBUG: action success: talk")
@@ -197,25 +207,26 @@ class Game(object):
         print("Game class DEBUG: action success: use")
 
     def examine(self):
-        obj = input("What do you want to examine?\n- ")
-        if not self.isRealItem(obj):
-            print(f"{obj} doesn't exist.")
-            return ("examine ", obj)
-        elif not self.inSameRoom(obj):
-            print(f"There is no {obj} here.")
-            return ("examine ", obj)
-        else:
-            print(f"You examine {self.items[obj]['screenName']}.")
-            print(self.items[obj]['desc'])
-            return ("examine ", obj)
+        item = input("What do you want to examine?\n- ")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if real item
+            print(f"There is no {item}.")
+        elif itemObj not in self.currentLocation.contents:    # Item exists, now check if in same room
+            print(f"There is no {item} here.") 
+        else:   # All checks pass -- examine item
+            print(f"You examine the {item}...")
+            sleep(0.5)
+            itemObj.printDesc()
 
     def move(self):
         direction = input("In which direction do you want to go?\n- ")
         try:
             self.directInput(direction)
         except:
-            print("I don't understand")
-        return "move"
+            print("I don't understand.")
 
     cmd = {
         "north":north,
@@ -242,9 +253,8 @@ class Game(object):
 
     def directInput(self, turnAction):
         action = self.cmd[turnAction](self)
-        return action
+        return turnAction
 
-test = Game("test")
-print(test.currentLocation.name)
-test.west()
-test.east()
+# test = Game("test")
+
+# test.directInput("examine")

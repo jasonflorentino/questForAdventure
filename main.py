@@ -1,6 +1,8 @@
 #! Python3
 # main.py - Runs the main game program
 
+from time import sleep
+
 from mainFunc import write
 from mainFunc import mainMenu
 from mainFunc import main
@@ -19,4 +21,5 @@ if __name__ == '__main__':
         play = main(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
         if play == False:
             write(goodbye)
+            sleep(1)
             break
