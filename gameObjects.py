@@ -129,6 +129,10 @@ hallway1 = Place("Hallway", 0, False, False, False, False, False, False,
 
 _________________"""
 
+lint = Item("lint", "lint", "hallway", True,
+"It's lint",
+False, True, "Um, okay.", False, False, False, False, "default", False, False, False, [])
+
 bed = Item("bed", "bed", "chamber", True,
 "It is comfortable and warm. No place for an Adventurer like yourself!",
 "The sweet smell of fresh linen and days wasted.",
@@ -149,7 +153,7 @@ True,
 "Why? I guess you could gross out your enemies with this.",
 True,
 "You feel ... relieved.",
-False, False, False, True, False, True, [])
+False, False, False, True, True, False, [])
 
 """____________________________
 
@@ -157,16 +161,17 @@ False, False, False, True, False, True, [])
 
 ____________________________"""
 
-for item in (bed, mirror, chamberPot):
+for item in (lint, bed, mirror, chamberPot):
     chamber.contents.append(item)
 
-# hallway1.contents.append(chamberPot)
-
-chamber.west = hallway1
-hallway1.east = chamber
+# hallway1.contents.append()
 
 allItems = {
+    "lint": lint,
     "bed": bed,
     "mirror": mirror,
     "chamber pot": chamberPot,
 }
+
+chamber.west = hallway1
+hallway1.east = chamber

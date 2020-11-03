@@ -201,7 +201,21 @@ class Game(object):
         print("Game class DEBUG: action success: smell")
 
     def open(self):
-        print("Game class DEBUG: action success: open")
+        item = input("What do you want to open?\n- ")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if item is a real item
+            print(f"There is no {item}.")
+        elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
+            print(f"There is no {item} here.")
+        elif itemObj.container == False:
+            print(f"{item.title()} can't be opened.")
+        elif itemObj.isOpen == True:
+            print(f"{item.title()} is already open.")
+        else:
+            itemObj.open()
 
     def use(self):
         print("Game class DEBUG: action success: use")
@@ -255,6 +269,10 @@ class Game(object):
         action = self.cmd[turnAction](self)
         return turnAction
 
-# test = Game("test")
-
-# test.directInput("examine")
+test = Game("test")
+print(test.inventory)
+print(test.currentLocation.contents)
+test.directInput("look")
+test.directInput("take")
+test.directInput("west")
+test.directInput("open")
