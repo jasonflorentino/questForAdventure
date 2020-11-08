@@ -71,6 +71,9 @@ class Game(object):
         self.items[item]["location"] = "inventory"
         print(f"{item.capitalize()} was added to inventory.")
 
+    def getSecondInput(self, action):
+        return input(f"What do you want to {action}?\n")
+
         """
 
         COMMANDS
@@ -151,10 +154,20 @@ class Game(object):
         print("Game class DEBUG: action success: cast")
     
     def close(self):
-        print("Game class DEBUG: action success: close")
+        item = self.getSecondInput("close")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if item is a real item
+            print(f"There is no {item}.")
+        elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
+            print(f"There is no {item} here.")
+        else:
+            itemObj.close()
 
     def drop(self):
-        item = input("What do you want to drop?\n- ")
+        item = self.getSecondInput("drop")
         try:
             itemObj = gameObjects.allItems[item]
         except:
@@ -172,10 +185,31 @@ class Game(object):
                 print(f"You dropped the {item}.")
 
     def place(self):
-        print("Game class DEBUG: action success: place")
+        item = self.getSecondInput("place")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if item is a real item
+            print(f"I don't know what that is.")
+        elif itemObj not in self.inventory:    # Item exists, now check if in inventory
+            print(f"There is no {item} in your inventory.")
+        else:
+            cont = input(f"In what do you want to place the {item}?\n")
+            try:
+                contObj = gameObjects.allItems[cont]
+            except:
+                pass
+            if cont not in gameObjects.allItems:     # Checks if item is a real item
+                print(f"There is no {cont}.")
+            elif contObj not in self.inventory and contObj not in self.currentLocation.contents:    # Item exists, now check if in reach
+                print(f"There is no {cont} here.")
+            else:
+                self.inventory.remove(itemObj)
+                contObj.place(itemObj)
 
     def take(self):
-        item = input("What do you want to take?\n- ")
+        item = self.getSecondInput("take")
         try:
             itemObj = gameObjects.allItems[item]
         except:
@@ -201,7 +235,7 @@ class Game(object):
         print("Game class DEBUG: action success: smell")
 
     def open(self):
-        item = input("What do you want to open?\n- ")
+        item = self.getSecondInput("open")
         try:
             itemObj = gameObjects.allItems[item]
         except:
@@ -210,18 +244,27 @@ class Game(object):
             print(f"There is no {item}.")
         elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
             print(f"There is no {item} here.")
-        elif itemObj.container == False:
-            print(f"{item.title()} can't be opened.")
-        elif itemObj.isOpen == True:
-            print(f"{item.title()} is already open.")
         else:
             itemObj.open()
 
     def use(self):
         print("Game class DEBUG: action success: use")
 
+    def empty(self):
+        item = self.getSecondInput("empty")
+        try:
+            itemObj = gameObjects.allItems[item]
+        except:
+            pass
+        if item not in gameObjects.allItems:     # Checks if item is a real item
+            print(f"There is no {item}.")
+        elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
+            print(f"There is no {item} here.")
+        else:
+            self.currentLocation.contents.append(itemObj.empty())
+
     def examine(self):
-        item = input("What do you want to examine?\n- ")
+        item = self.getSecondInput("examine")
         try:
             itemObj = gameObjects.allItems[item]
         except:
@@ -247,22 +290,23 @@ class Game(object):
         "south":south,
         "east":east,
         "west":west,
-        "help":help,
-        "inventory":inventory,
-        "look":look,
-        "quit":quit,
-        "xyzzy":xyzzy,
         "cast":cast,
         "close":close,
         "drop":drop,
+        "empty":empty,
+        "examine":examine,
+        "help":help,
+        "inventory":inventory,
+        "look":look,
+        "move":move,
+        "open":open,
         "place":place,
+        "quit":quit,
+        "smell":smell,
         "take":take,
         "talk":talk,
-        "smell":smell,
-        "open":open,
         "use":use,
-        "examine":examine,
-        "move":move,
+        "xyzzy":xyzzy,
         }
 
     def directInput(self, turnAction):
@@ -274,5 +318,10 @@ print(test.inventory)
 print(test.currentLocation.contents)
 test.directInput("look")
 test.directInput("take")
-test.directInput("west")
 test.directInput("open")
+test.directInput("place")
+test.directInput("inventory")
+test.directInput("look")
+test.directInput("empty")
+test.directInput("look")
+

@@ -82,6 +82,8 @@ class Item(object):
             if self.isOpen == False:
                 print(f"You opened the {self.name}.")
                 self.isOpen = True
+                if len(self.contents) > 0:
+                    print(f"There's a {self.contents[0].name} inside.")
             else:
                 print(f"The {self.name} is already open.")
         else:
@@ -95,17 +97,31 @@ class Item(object):
         elif self.isOpen == False:
             print(f"The {self.name} is already closed.")
         else:
-            print(f"You closed the {self.name}")
+            print(f"You closed the {self.name}.")
             self.isOpen = False
     
-    def put(self, item):
+    def place(self, item):
         if self.container == False:
-            print(f"You can't put {item.name} in the {self.name}.")
+            print(f"You can't place {item.name} in the {self.name}.")
         elif self.isOpen == False:
             print(f"{self.name} isn't open.")
+        elif len(self.contents) > 0:
+            print(f"There's already something in the {self.name}.")
         else:
-            print(f"You put {item.name} in the {self.name}.")
+            print(f"You placed {item.name} in the {self.name}.")
             self.contents.append(item)
+            item.location = self.name
+    
+    def empty(self):
+        if self.container == False:
+            print(f"You can't empty the {self.name}.")
+        elif self.isOpen == False:
+            print(f"{self.name} isn't open.")
+        elif len(self.contents) == 0:
+            print(f"There's nothing in the {self.name}.")
+        else:
+            print(f"You emptied the {self.name}.")
+            return self.contents.pop()
 
 """_________________
 
