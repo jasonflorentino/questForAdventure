@@ -22,15 +22,6 @@ class Game(object):
 
     def incrementTurn(self):
         self.turnCount += 1
-
-    def changeName(self, newName):
-        self.name = newName
-    
-    def printName(self):
-        print('The game name is ' + self.name)
-
-    def changeCurrentLocation(self, newLocation):
-        self.currentLocation = newLocation
     
     def beginning(self):
         text = [
@@ -47,24 +38,6 @@ class Game(object):
         print()
         self.currentLocation.visits += 1
         self.turnCount += 1
-
-    def isRealItem(self, item):
-        if item in self.items:
-            return True
-        else:
-            return False
-
-    def inSameRoom(self, item):
-        if self.items[item]['location'] == self.currentLocation:
-            return True
-        else:
-            return False
-
-    def isTakeable(self, item):
-        if self.items[item]['takeable']:
-            return True
-        else:
-            return False
     
     def addToInventory(self, item):
         self.inventory.append(item)
@@ -73,6 +46,20 @@ class Game(object):
 
     def getSecondInput(self, action):
         return input(f"What do you want to {action}?\n")
+
+    def notARealItem(self, item):
+        if item not in gameObjects.allItems:
+            print(f"There is no {item}.")
+            return True
+        else:
+            return False
+    
+    def notInTheSameRoom(self, itemObj):
+        if itemObj not in self.currentLocation.contents:
+            print(f"There is no {itemObj.name} here.")
+            return True
+        else:
+            return False
 
         """
 
@@ -135,8 +122,9 @@ class Game(object):
             room.printLongDesc()
         else:
             room.printShortDesc()
-        print("You see:")
+        print("You see: ", end='')
         room.printContents()
+        print()
 
     def quit(self):
         youSure = input("Are you sure you want to quit? (y/n)\n> ").lower()
@@ -159,8 +147,8 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if item is a real item
-            print(f"There is no {item}.")
+        if self.notARealItem(item):
+            return
         elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
             print(f"There is no {item} here.")
         else:
@@ -172,8 +160,8 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if item is a real item
-            print(f"I don't know what that is.")
+        if self.notARealItem(item):
+            return
         elif itemObj not in self.inventory:    # Item exists, now check if in inventory
             print(f"There is no {item} in your inventory.")
         else:   # all checks pass -- take item
@@ -190,8 +178,8 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if item is a real item
-            print(f"I don't know what that is.")
+        if self.notARealItem(item):
+            return
         elif itemObj not in self.inventory:    # Item exists, now check if in inventory
             print(f"There is no {item} in your inventory.")
         else:
@@ -200,8 +188,8 @@ class Game(object):
                 contObj = gameObjects.allItems[cont]
             except:
                 pass
-            if cont not in gameObjects.allItems:     # Checks if item is a real item
-                print(f"There is no {cont}.")
+            if self.notARealItem(item):
+                return
             elif contObj not in self.inventory and contObj not in self.currentLocation.contents:    # Item exists, now check if in reach
                 print(f"There is no {cont} here.")
             else:
@@ -214,10 +202,10 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if item is a real item
-            print(f"There is no {item}.")
-        elif itemObj not in self.currentLocation.contents:    # Item exists, now check if in same room
-            print(f"There is no {item} here.")
+        if self.notARealItem(item):
+            return
+        elif self.notInTheSameRoom(itemObj):
+            return
         elif itemObj.takeable == False:   # Checks if item is takeable
             print(f"This ought to stay right here.")
         else:   # all checks pass -- take item
@@ -240,8 +228,8 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if item is a real item
-            print(f"There is no {item}.")
+        if self.notARealItem(item):
+            return
         elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
             print(f"There is no {item} here.")
         else:
@@ -256,8 +244,8 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if item is a real item
-            print(f"There is no {item}.")
+        if self.notARealItem(item):
+            return
         elif itemObj not in self.inventory and itemObj not in self.currentLocation.contents:    # Item exists, now check if in reach
             print(f"There is no {item} here.")
         else:
@@ -269,14 +257,23 @@ class Game(object):
             itemObj = gameObjects.allItems[item]
         except:
             pass
-        if item not in gameObjects.allItems:     # Checks if real item
-            print(f"There is no {item}.")
-        elif itemObj not in self.currentLocation.contents:    # Item exists, now check if in same room
-            print(f"There is no {item} here.") 
+        if self.notARealItem(item):
+            return
+        elif self.notInTheSameRoom(itemObj):
+            return
         else:   # All checks pass -- examine item
             print(f"You examine the {item}...")
             sleep(0.5)
             itemObj.printDesc()
+            if itemObj.container:
+                if itemObj.isOpen:
+                    if len(itemObj.contents) > 0:
+                        print(f"Inside there is a {itemObj.contents[0].name}.")
+                    else:
+                        print("There is nothing inside.")
+                else:
+                    print("It's shut.")
+
 
     def move(self):
         direction = input("In which direction do you want to go?\n- ")
@@ -316,12 +313,12 @@ class Game(object):
 test = Game("test")
 print(test.inventory)
 print(test.currentLocation.contents)
-test.directInput("look")
+# test.directInput("look")
 test.directInput("take")
-test.directInput("open")
-test.directInput("place")
-test.directInput("inventory")
-test.directInput("look")
-test.directInput("empty")
-test.directInput("look")
+# test.directInput("open")
+# test.directInput("place")
+# test.directInput("inventory")
+# test.directInput("look")
+# test.directInput("empty")
+# test.directInput("look")
 
