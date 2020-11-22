@@ -5,6 +5,7 @@ from time import sleep
 
 from resources import Game
 import player
+from userInput import UserInput
 
 def write(text):
     for letter in text:
@@ -25,13 +26,13 @@ def getMenuInput():
 def mainMenu():
     print("       -- (N)ew / (Q)uit --\n")
     choice = getMenuInput()
-    if choice == "q" or choice == "quit":
+    if choice in ("q", "quit"):
         return False
-    elif choice == "n" or choice == "new":
+    else:
         game = Game("New")
         return game
-    else:
-        return True
+
+print(mainMenu())
 
 def main(game):
     if game == False:
@@ -52,7 +53,9 @@ def main(game):
     return True
 
 def turn(game):
-    turnAction = validateInput(game, input("\n> ").lower())       # USER INPUT
+    newInput = UserInput()
+    newInput.asssignCmds(newInput.getInput())
+    turnAction = validateInput(game, newInput)
     # print(f"user input: {turnAction} - turn()")    # DEBUG
     print()
     if turnAction == "invalid":
@@ -61,13 +64,16 @@ def turn(game):
         turnAction = game.directInput(turnAction)
     return turnAction
 
-def validateInput(game, userInput):
-    if len(userInput) == 0:
+# TODO: Pick up input validation here...
+# work to validate multiple inputs
+
+def validateInput(game, inputObj):
+    if len(inputObj.word1) == 0:
         return "invalid"
-    inputlist = userInput.split()
+    # inputlist = userInput.split()
     actionWord = ""
-    if inputlist[0] in game.cmd:
-        actionWord = inputlist[0]
+    if inputObj.word1 in game.cmd:
+        actionWord = inputObj.word1
     else:
         actionWord = "invalid"
     return actionWord

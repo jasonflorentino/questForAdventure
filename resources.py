@@ -310,11 +310,11 @@ class Game(object):
         action = self.cmd[turnAction](self)
         return turnAction
 
-test = Game("test")
-print(test.inventory)
-print(test.currentLocation.contents)
+# test = Game("test")
+# print(test.inventory)
+# print(test.currentLocation.contents)
 # test.directInput("look")
-test.directInput("take")
+# test.directInput("take")
 # test.directInput("open")
 # test.directInput("place")
 # test.directInput("inventory")

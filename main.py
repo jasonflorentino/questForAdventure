@@ -3,23 +3,23 @@
 
 from time import sleep
 
-from mainFunc import write
-from mainFunc import mainMenu
-from mainFunc import main
+from resources import gameplay_functions as gpf
+# from mainFunc import mainMenu
+# from mainFunc import main
 
-title = """
+TITLE = """
   Q U E S T  F O R  A D V E N T U R E  
 =======================================
 
 """
-goodbye = "Farewell, adventure seeker.\n"
+GOODBYE = "Farewell, adventure seeker.\n"
 
 if __name__ == '__main__':
     while True:
-        write(title)      # Prints game title to screen
-        game = mainMenu()   # Returns Game object or False if user quits
-        play = main(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
-        if play == False:
-            write(goodbye)
+        gpf.write(TITLE)      # Prints game title to screen
+        game = gpf.mainMenu()   # Returns Game object or False if user quits
+        play = gpf.playGame(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
+        if not play:
+            gpf.write(GOODBYE)
             sleep(1)
             break
