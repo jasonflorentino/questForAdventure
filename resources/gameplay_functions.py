@@ -40,7 +40,7 @@ def playGame(game):
             action = turn(game)     # THE TURN
             if action == "quit":
                 break
-            game.turnCount += 1
+            game.incrementTurnCount()
         return False
     else:
         return False

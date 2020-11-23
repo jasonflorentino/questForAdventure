@@ -1,19 +1,28 @@
 #! Python3
 # game_actions.py
 
-def north(game):
-    textToPrint = "You went north"
-    actionToEval = "north"
+def move(game, direction=False):
+    if not direction:
+        direction = input("In what direction do you want to move?\n> ").lower()
+        if direction in ("north", "east", "south", "west"):
+            pass
+        else:
+            return ("That's not a direction", "Invalid Input")
+    textToPrint = f"You went {direction}"
+    actionToEval = direction
     return (textToPrint, actionToEval)
 
+def north(game):
+    return move(game, "north")
+
 def south(game):
-    pass
+    return move(game, "south")
 
 def east(game):
-    pass
+    return move(game, "east")
 
 def west(game):
-    pass
+    return move(game, "west")
 
 def help_(game):
     pass
@@ -61,9 +70,6 @@ def empty(game):
     pass
 
 def examine(game):
-    pass
-
-def move(game):
     pass
 
 actionsDict = {

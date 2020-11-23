@@ -4,8 +4,6 @@
 from time import sleep
 
 from resources import gameplay_functions as gpf
-# from mainFunc import mainMenu
-# from mainFunc import main
 
 TITLE = """
   Q U E S T  F O R  A D V E N T U R E  
