@@ -32,6 +32,16 @@ class Room():
         else:
             print(f"Item not in contents of {self.name}.")
             return self
+    
+    def getNextRoom(self, direction):
+        if direction == "north":
+            return self.north
+        elif direction == "east":
+            return self.east
+        elif direction == "south":
+            return self.south
+        else:
+            return self.west
 
 """
 GENERATE ROOM OBJECTS

@@ -3,6 +3,7 @@
 
 from time import sleep
 
+from resources import util
 from resources import gameplay_functions as gpf
 
 TITLE = """
@@ -18,6 +19,6 @@ if __name__ == '__main__':
         game = gpf.mainMenu()   # Returns Game object or False if user quits
         play = gpf.playGame(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
         if not play:
-            gpf.write(GOODBYE)
+            util.write(GOODBYE)
             sleep(1)
             break

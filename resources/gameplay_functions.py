@@ -3,13 +3,7 @@
 
 from .game import Game
 from .user_input import UserInput
-
-def write(text):
-    # from time import sleep    # Uncomment for slow printing
-    for letter in text:
-        print(letter, end='', flush=True)
-        # sleep(.02)            # Uncomment for slow printing
-    print()
+from .util import write
 
 def mainMenu():
     print("       -- (N)ew / (Q)uit --\n")
@@ -37,7 +31,7 @@ def playGame(game):
             event = game.eventCheck()
             if event == "quit":
                 break
-            action = turn(game)     # THE TURN
+            action = turn(game)
             if action == "quit":
                 break
             game.incrementTurnCount()

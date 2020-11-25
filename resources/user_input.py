@@ -9,10 +9,14 @@ class UserInput():
 
   def __init__(self):
     self.matches = self.reg.match(input("> ").lower())
-    self.word1 = self.matches.group(1)
-    self.word2 = self.matches.group(2)
-    self.word3 = self.matches.group(3)
-    self.isValid = False
+    try:
+      self.word1 = self.matches.group(1)
+      self.word2 = self.matches.group(2)
+      self.word3 = self.matches.group(3)
+      self.isValid = False
+    except:
+      self.word1 = False
+      self.isValid = False
 
     if self.word1 in actionsDict:
       self.isValid = True

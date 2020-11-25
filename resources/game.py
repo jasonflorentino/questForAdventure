@@ -2,18 +2,18 @@
 # game.py
 
 # Imports if run from main.py
-# from .game_events import *
-# from .game_actions import *
-# from .player import *
-# from .rooms import *
-# from .objects import *
+from .game_events import *
+from .game_actions import *
+from .player import *
+from .rooms import *
+from .objects import *
 
 # Imports if run from source file
-from game_events import *
-from game_actions import *
-from player import *
-from rooms import *
-from objects import *
+# from game_events import *
+# from game_actions import *
+# from player import *
+# from rooms import *
+# from objects import *
 
 class Game():
     def __init__(self, name):
@@ -36,5 +36,20 @@ class Game():
         return sendBack
 
     def execute(self, userInputObject):
-        textToPrint, actionToEval = actionsDict[userInputObject.word1](self)
+        textToPrint, actionToEval = actionsDict[userInputObject.word1](self, userInputObject)
         return (textToPrint, actionToEval)
+    
+    def movePlayer(self, newLocation):
+        self.player.changeLocation(newLocation)
+        self.rooms[newLocation].incrementVisits()
+        return self.getStatus()
+    
+    def getStatus(self):
+        cL = self.rooms[self.player.currentLocation]
+        roomDesc = ""
+        if cL.visits == 1:
+            roomDesc = cL.description
+        else:
+            roomDesc = cL.shortDesc
+        roomStatus = f"[{cL.name}]\n{roomDesc}"
+        return roomStatus
