@@ -6,7 +6,7 @@ ROOM CLASS
 """
 
 class Room():
-    def __init__(self, name, description, shortDesc, north, east, south, west):
+    def __init__(self, name, description, shortDesc, north, east, south, west, contents):
         self.name = name
         self.description = description
         self.shortDesc = shortDesc
@@ -14,8 +14,8 @@ class Room():
         self.east = east
         self.south = south
         self.west = west
+        self.contents = contents
         self.visits = 0
-        self.contents = []
     
     def incrementVisits(self):
         self.visits += 1
@@ -42,6 +42,15 @@ class Room():
             return self.south
         else:
             return self.west
+    
+    def listContents(self):
+        if len(self.contents) >= 1:
+            print("You see:")
+            for item in self.contents:
+                print("- " + item.title())
+        else:
+            print("You see nothing of interest.")
+
 
 """
 GENERATE ROOM OBJECTS
@@ -57,8 +66,9 @@ def createRooms():
         east = roomData[room]["east"]
         south = roomData[room]["south"]
         west = roomData[room]["west"]
+        contents = roomData[room]["contents"]
 
-        roomObjects[room] = Room(name, description, shortDesc, north, east, south, west)
+        roomObjects[room] = Room(name, description, shortDesc, north, east, south, west, contents)
 
     return roomObjects
 
@@ -76,6 +86,7 @@ roomData = {
         "east": "goEast",
         "south": False,
         "west": "goWest",
+        "contents": []
     },
     "chamber": {
         "name": "Chamber",
@@ -85,6 +96,7 @@ roomData = {
         "east": False,
         "south": False,
         "west": "hallway1",
+        "contents": ["bed", "mirror"]
     },
     "hallway1": {
         "name": "Hallway",
@@ -94,5 +106,6 @@ roomData = {
         "east": "chamber",
         "south": "utilityCloset",
         "west": "hallway2",
+        "contents": []
     },
 }

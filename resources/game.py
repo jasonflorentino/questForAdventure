@@ -19,9 +19,10 @@ class Game():
     def __init__(self, name):
         self.name = name
         self.turnCount = 1
-        self.player = Player()
-        self.rooms = createRooms()
-        self.objects = createObjects()
+        self.player = Player() # Player Object
+        self.rooms = createRooms() # Dictionary of "roomNam": Room Object
+        self.objects = createObjects() # Dictionary of "objectName": Game Object
+        self.activeRoom = False # Stores reference to current Room Object
     
     def incrementTurnCount(self):
         self.turnCount += 1
@@ -32,7 +33,6 @@ class Game():
         if self.turnCount == 1:
             beginning(self)
             sendBack = "beginning"
-        print()
         return sendBack
 
     def execute(self, userInputObject):
@@ -40,16 +40,17 @@ class Game():
         return (textToPrint, actionToEval)
     
     def movePlayer(self, newLocation):
+        self.activeRoom = self.rooms[newLocation] # Room Object
         self.player.changeLocation(newLocation)
         self.rooms[newLocation].incrementVisits()
         return self.getStatus()
     
     def getStatus(self):
-        cL = self.rooms[self.player.currentLocation]
+        here = self.activeRoom
         roomDesc = ""
-        if cL.visits == 1:
-            roomDesc = cL.description
+        if here.visits == 1:
+            roomDesc = here.description
         else:
-            roomDesc = cL.shortDesc
-        roomStatus = f"[{cL.name}]\n{roomDesc}"
+            roomDesc = here.shortDesc
+        roomStatus = f"\n[{here.name}]\n{roomDesc}\n"
         return roomStatus

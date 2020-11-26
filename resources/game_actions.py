@@ -9,7 +9,7 @@ def move(game, inputObject, direction=False):
         else:
             return ("That's not a direction", "Invalid Input")
     
-    newLocation = game.rooms[game.player.currentLocation].getNextRoom(direction)
+    newLocation = game.activeRoom.getNextRoom(direction)
     if newLocation:
         textToPrint = game.movePlayer(newLocation)  
         actionToEval = direction
@@ -36,7 +36,9 @@ def inventory(game, inputObject):
     pass
 
 def look(game, inputObject):
-    pass
+    print(game.getStatus())
+    game.activeRoom.listContents()
+    return ("", "Room Status")
 
 def quit_(game, inputObject):
     while True:
@@ -81,8 +83,14 @@ def use(game, inputObject):
 def empty(game, inputObject):
     pass
 
-def examine(game, inputObject):
-    pass
+def examine(game, userIn):
+    if not userIn.word2:
+        userIn.word2 = input("What do you want to examine?\n> ").lower()
+    if not userIn.word2 in game.activeRoom.contents:
+        return (f"There is no {userIn.word2} here.\n", "Item doesn't exist")
+    else:
+        output = f"You examine the {userIn.word2}...\n" + game.objects[userIn.word2].description + "\n"
+        return (output, "examine")
 
 actionsDict = {
     "north":north,
