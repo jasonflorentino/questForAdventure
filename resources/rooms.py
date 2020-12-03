@@ -6,15 +6,15 @@ ROOM CLASS
 """
 
 class Room():
-    def __init__(self, name, description, shortDesc, north, east, south, west, contents):
-        self.name = name
-        self.description = description
-        self.shortDesc = shortDesc
-        self.north = north
-        self.east = east
-        self.south = south
-        self.west = west
-        self.contents = contents
+    def __init__(self, arguments):
+        self.name = arguments.get("name", False)
+        self.description = arguments.get("description", False)
+        self.shortDesc = arguments.get("shortDesc", False)
+        self.north = arguments.get("north", False)
+        self.east = arguments.get("east", False)
+        self.south = arguments.get("south", False)
+        self.west = arguments.get("west", False)
+        self.contents = arguments.get("contents", False)
         self.visits = 0
     
     def incrementVisits(self):
@@ -58,18 +58,8 @@ GENERATE ROOM OBJECTS
 
 def createRooms():
     roomObjects = {}
-    for room in roomData.keys():
-        name = roomData[room]["name"]
-        description = roomData[room]["description"]
-        shortDesc = roomData[room]["shortDesc"]
-        north = roomData[room]["north"]
-        east = roomData[room]["east"]
-        south = roomData[room]["south"]
-        west = roomData[room]["west"]
-        contents = roomData[room]["contents"]
-
-        roomObjects[room] = Room(name, description, shortDesc, north, east, south, west, contents)
-
+    for k, v in roomData.items():
+        roomObjects[k] = Room(v)
     return roomObjects
 
 
