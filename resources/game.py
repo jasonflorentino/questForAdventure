@@ -36,8 +36,8 @@ class Game():
         return sendBack
 
     def execute(self, userInputObject):
-        textToPrint, actionToEval = actionsDict[userInputObject.word1](self, userInputObject)
-        return (textToPrint, actionToEval)
+        response = actionsDict[userInputObject.word1](self, userInputObject)
+        return response
     
     def movePlayer(self, newLocation):
         self.activeRoom = self.rooms[newLocation] # Room Object

@@ -1,21 +1,26 @@
 #! Python3
 # game_actions.py
 
+from .response import Response
+
 def move(game, inputObject, direction=False):
+    response = Response()
     if not direction:
         direction = input("In what direction do you want to move?\n> ").lower()
         if direction in ("north", "east", "south", "west"):
             pass
         else:
-            return ("That's not a direction", "Invalid Input")
+            response.addToPrint("That's not a direction").setGameStatus("Invalid Input")
+            return response
     
     newLocation = game.activeRoom.getNextRoom(direction)
     if newLocation:
-        textToPrint = game.movePlayer(newLocation)  
-        actionToEval = direction
-        return (textToPrint, actionToEval)
+        response.addToPrint(game.movePlayer(newLocation))
+        response.setGameStatus(direction)
+        return response
     else:
-        return ("You can't go that way.", "No room at desired direction")
+        response.addToPrint("You can't go that way.").setGameStatus("No room at desired direction")
+        return response
 
 def north(game, inputObject):
     return move(game, inputObject, "north")
@@ -36,19 +41,24 @@ def inventory(game, inputObject):
     pass
 
 def look(game, inputObject):
+    response = Response()
     print(game.getStatus())
     game.activeRoom.listContents()
-    return ("", "Room Status")
+    response.addToPrint("").setGameStatus("Room Status")
+    return response
 
 def quit_(game, inputObject):
+    response = Response()
     while True:
         sure = input("Are you sure you want to quit? (y/n)\n> ").lower()
         if sure in ("y", "yes", "n", "no"):
             break
     if sure in ("y", "yes"):
-        return ("Quitting...", "quit")
+        response.addToPrint("Quitting...").setGameStatus("quit")
+        return response
     else:
-        return ("I knew you still had a bit in you", "continue")
+        response.addToPrint("I knew you still had a bit in you").setGameStatus("continue")
+        return response
 
 def xyzzy(game, inputObject):
     pass
@@ -84,13 +94,17 @@ def empty(game, inputObject):
     pass
 
 def examine(game, userIn):
+    response = Response()
     if not userIn.word2:
         userIn.word2 = input("What do you want to examine?\n> ").lower()
     if not userIn.word2 in game.activeRoom.contents:
-        return (f"There is no {userIn.word2} here.\n", "Item doesn't exist")
+        response.addToPrint(f"There is no {userIn.word2} here.\n")
+        response.setGameStatus("Item doesn't exist")
+        return response
     else:
         output = f"You examine the {userIn.word2}...\n" + game.objects[userIn.word2].description + "\n"
-        return (output, "examine")
+        response.addToPrint(output).setGameStatus("examine")
+        return response
 
 actionsDict = {
     "north":north,
