@@ -44,11 +44,11 @@ class Room():
         else:
             return self.west
     
-    def listContents(self):
+    def listContents(self, game):
         if len(self.contents) >= 1:
             print("You see:")
             for item in self.contents:
-                print("- " + item.title())
+                print("- " + game.objects[item].name)
         else:
             print("You see nothing of interest.")
 

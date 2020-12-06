@@ -145,7 +145,7 @@ containerObjectData = {
         "isCloseable": True,
         "contents": ["armour"]
     },
-    "chamber pot": {
+    "chamberPot": {
         "name": "Chamber Pot",
         "description": "Why would you want to look at that? Gross.",
         "odour": "Urrgh. Why would you do that? You know what goes in there!",

@@ -19,6 +19,7 @@ if __name__ == '__main__':
         game = func.mainMenu()   # Returns Game object or False if user quits
         play = func.playGame(game)   # Run game using Game object. Returns Ture if user plays again, False if user quits
         if not play:
+            sleep(1)
             util.write(GOODBYE)
             sleep(1)
             break

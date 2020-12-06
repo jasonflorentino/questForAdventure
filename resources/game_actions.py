@@ -43,7 +43,7 @@ def inventory(game, inputObject):
 def look(game, inputObject):
     response = Response()
     print(game.getStatus())
-    game.activeRoom.listContents()
+    game.activeRoom.listContents(game)
     response.addToPrint("").setGameStatus("Room Status")
     return response
 
