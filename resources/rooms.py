@@ -87,7 +87,7 @@ roomData = {
         "east": False,
         "south": False,
         "west": "hallway1",
-        "contents": ["bed", "mirror"]
+        "contents": ["bed", "mirror", "wardrobe", "chamberPot"]
     },
     "hallway1": {
         "name": "Hallway",
@@ -97,6 +97,7 @@ roomData = {
         "east": "chamber",
         "south": "utilityCloset",
         "west": "hallway2",
+        "contents": ["huntingTrophies", "lavishGifts"]
     },
     "weaponsRoom": {
         "name": "Weapons Room",

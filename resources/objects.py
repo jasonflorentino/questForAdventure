@@ -112,6 +112,25 @@ itemObjectData = {
         "isReusable": True,
         "isUsed": False,
         "useResp": "You can't help but wonder if the chain-mail makes your butt look big.",
+    },
+    "armour": {
+        "name": "Armour",
+        "description": "Ooooh...shiny.",
+        "isUseable": True,
+        "isReusable": True,
+        "odour": "Smells like metal. Who would have thought?",
+        "takeResp": "Oof! This weighs a tonne! You've been sitting around too long in your underpants eating sweets. You should put the armour on so you can at least look the part.",
+        "useResp": "It fits you like a glove. It looks like your boots could be buffed out a bit though. You should examine the mirror to see how you look.",
+    },
+    "huntingTrophies": {
+        "name": "Hunting Trophies",
+        "description": "Every type of animal head imaginable is up on this wall.",
+        "isVisible": True,
+    },
+    "lavishGifts": {
+        "name": "Lavish Gifts",
+        "description": "Oooh...shiny. Lots of gold this and bejewelled that up here.",
+        "isVisible": True,
     }
 }
 
