@@ -14,7 +14,8 @@ class Room():
         self.east = arguments.get("east", False)
         self.south = arguments.get("south", False)
         self.west = arguments.get("west", False)
-        self.contents = arguments.get("contents", False)
+        self.contents = arguments.get("contents", [])
+        self.odour = arguments.get("odour", False)
         self.visits = 0
     
     def incrementVisits(self):
@@ -96,6 +97,46 @@ roomData = {
         "east": "chamber",
         "south": "utilityCloset",
         "west": "hallway2",
-        "contents": []
     },
+    "weaponsRoom": {
+        "name": "Weapons Room",
+        "description": "A dark room filled with racks upon racks of swords and shields, bows and daggers, and even a few war axes. They glitter eerily in the weak light from the few candles scattered across the room. Examine what you see to check if it will suit your journey.",
+        "shortDesc": "It's dark in here. Things glitter eerily in the weak light from the few candles scattered across the room.",
+        "south": "hallway2",
+        "odour": "Mmm...beeswax and dried blood.",
+    },
+    "utilityCloset": {
+        "name": "Utility Closet",
+        "description": "Well, this is a closet, that's for sure.",
+        "shortDesc": "Yup, still a closet.",
+        "north": "hallway1",
+    },
+    "hallway2": {
+        "name": "Hallway",
+        "description": "I told you it was long. The door outside is just ahead to the West. Places of no interest are North and South. Your Chamber is far East.",
+        "shortDesc": "The door outside is just over to the West. Places of no interest are North and South. Your Chamber is far East.",
+        "north": "boringRoom",
+        "east": "hallway1",
+        "south": "uninterestingRoom",
+        "west": "frontGates",
+    },
+    "boringRoom": {
+        "name": "Boring Room",
+        "description": "This room is so boring. When you get back from your adventure you should put a life-size statue of yourself in here. Hopefully you'll have slimmed down a bit by then, so that it won't take up the whole room.",
+        "shortDesc": "Boooorrring.",
+        "south": "hallway2",
+    },
+    "uninterestingRoom": {
+        "name": "Uninteresting Room",
+        "description": "Doesn't look like there's anything in here. Don't bother looking around. Certainly no chests in here. You should probably just go back North.",
+        "shortDesc": "Doesn't look like there's anything in here. You should probably just go back North.",
+        "north": "hallway2",
+    },
+    "frontGates": {
+        "name": "Front Gates",
+        "description": "Ah, fresh air! Something you've clearly not had enough of recently. You are so close to adventure you can smell it. Now you just have to decide where to go.",
+        "shortDesc": "Ah, fresh air! You are so close to adventure you can smell it. Now you just have to decide where to go.",
+        "odour": "Smells like adventure!",
+        "east": "hallway2"
+    }
 }

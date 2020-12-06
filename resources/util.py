@@ -6,4 +6,4 @@ def write(text):
     for letter in text:
         print(letter, end='', flush=True)
         # sleep(.02)            # Uncomment for slow printing
-    # print()
+    print()

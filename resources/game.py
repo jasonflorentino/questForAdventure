@@ -3,14 +3,12 @@
 
 # Imports if run from main.py
 from .game_events import *
-from .game_actions import *
 from .player import *
 from .rooms import *
 from .objects import *
 
 # Imports if run from source file
 # from game_events import *
-# from game_actions import *
 # from player import *
 # from rooms import *
 # from objects import *
@@ -34,10 +32,6 @@ class Game():
             beginning(self)
             sendBack = "beginning"
         return sendBack
-
-    def execute(self, userInputObject):
-        response = actionsDict[userInputObject.word1](self, userInputObject)
-        return response
     
     def movePlayer(self, newLocation):
         self.activeRoom = self.rooms[newLocation] # Room Object

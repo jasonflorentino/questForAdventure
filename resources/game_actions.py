@@ -130,3 +130,7 @@ actionsDict = {
     "xyzzy":xyzzy,
     }
 
+# Each action function returns a response based on querries to Game
+def execute(game, userInputObject):
+    response = actionsDict[userInputObject.word1](game, userInputObject)
+    return response

@@ -5,6 +5,7 @@ from .game import Game
 from .user_input import UserInput
 from .util import write
 from .response import Response
+from .game_actions import *
 
 def mainMenu():
     print("       -- (N)ew / (Q)uit --\n")
@@ -44,7 +45,7 @@ def playGame(game):
 def turn(game):
     command = UserInput()
     if command.isValid:
-        response = game.execute(command)
+        response = execute(game, command)
         response.writeResponse()
         return response.gameStatus
     else:
