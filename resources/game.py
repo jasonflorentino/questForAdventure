@@ -33,21 +33,26 @@ class Game():
             sendBack = "beginning"
         return sendBack
     
-    def movePlayer(self, newLocation):
+    def movePlayer(self, newLocation, response):
         self.activeRoom = self.rooms[newLocation] # Room Object
         self.player.changeLocation(newLocation)
         self.rooms[newLocation].incrementVisits()
-        return self.getStatus()
+        return self.getStatus(response)
     
-    def getStatus(self):
+    def getStatus(self, response):
         here = self.activeRoom
+
         roomDesc = ""
         if here.visits == 1:
             roomDesc = here.description
         else:
             roomDesc = here.shortDesc
-        roomStatus = f"\n[{here.name}]\n{roomDesc}\n"
-        return roomStatus
+
+        response.addToPrint(f"\n[{here.name}]\n{roomDesc}\n")
+        return response
     
     def getDirectionTarget(self, direction):
         return self.activeRoom.getNextRoom(direction)
+    
+    def getRoomContents(self, response):
+        return self.activeRoom.listContents(self, response)

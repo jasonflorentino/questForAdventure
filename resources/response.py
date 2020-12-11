@@ -8,7 +8,8 @@ from .util import write
 # from util import write
 
 class Response():
-    def __init__(self):
+    def __init__(self, action):
+        self.action = action
         self.gameStatus = None
         self.toPrint = []
     
@@ -19,17 +20,16 @@ class Response():
     def setGameStatus(self, status):
         self.gameStatus = status
         return self
+
+    def setStatus_BadInput(self):
+        self.gameStatus = "Invalid Input"
+        return self
+    
+    def setStatus_FailedAction(self, note="No note given"):
+        self.gameStatus = f"{self.action} action failed: {note}"
+        return self
     
     def writeResponse(self, slow=False):
         for text in self.toPrint:
             write(text)
         return self
-        # if slow:
-        #     for text in self.toPrint:
-        #         for letter in text:
-        #             print(letter, end='', flush=True)
-        #             sleep(.02)
-        # else:
-        #     for line in self.toPrint:
-        #         print(line)
-        # return self

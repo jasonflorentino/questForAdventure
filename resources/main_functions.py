@@ -49,6 +49,6 @@ def turn(game):
         response.writeResponse()
         return response.gameStatus
     else:
-        write("Try again.")
+        write("Try again.\n")
         return "next-turn"
 

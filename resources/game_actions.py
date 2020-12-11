@@ -3,100 +3,99 @@
 
 from .response import Response
 
-def move(game, inputObject, direction=False):
-    response = Response()
+def move(game, userIn, direction=False):
+    response = Response("move")
+
     if not direction:
         direction = input("In what direction do you want to move?\n>> ").lower()
         if direction in ("north", "east", "south", "west"):
             pass
         else:
-            response.addToPrint("That's not a direction")
-            response.setGameStatus("Invalid Input")
-            return response
+            return response.addToPrint("That's not a direction\n").setStatus_BadInput()
 
-    newLocation = game.getDirectionTarget(direction) # Check if there's a room at given direction
+    # Check if there's a room at given direction
+    newLocation = game.getDirectionTarget(direction)
+
     if newLocation:
-        response.addToPrint(game.movePlayer(newLocation))
-        response.setGameStatus(direction)
-        return response
+        return game.movePlayer(newLocation, response).setGameStatus(direction)
     else:
-        response.addToPrint("You can't go that way.")
-        response.setGameStatus("No room at desired direction")
-        return response
+        return response.addToPrint("You can't go that way.\n").setStatus_FailedAction(f"No room at {direction}")
 
-def north(game, inputObject):
-    return move(game, inputObject, "north")
+def north(game, userIn):
+    return move(game, userIn, "north")
 
-def south(game, inputObject):
-    return move(game, inputObject, "south")
+def south(game, userIn):
+    return move(game, userIn, "south")
 
-def east(game, inputObject):
-    return move(game, inputObject, "east")
+def east(game, userIn):
+    return move(game, userIn, "east")
 
-def west(game, inputObject):
-    return move(game, inputObject, "west")
+def west(game, userIn):
+    return move(game, userIn, "west")
 
-def help_(game, inputObject):
+def help_(game, userIn):
     pass
 
-def inventory(game, inputObject):
+def inventory(game, userIn):
     pass
 
-def look(game, inputObject):
-    response = Response()
-    print(game.getStatus())
-    game.activeRoom.listContents(game)
-    response.addToPrint("").setGameStatus("Room Status")
-    return response
+def look(game, userIn):
+    response = Response("look")
 
-def quit_(game, inputObject):
-    response = Response()
+    game.getStatus(response)
+    game.getRoomContents(response)
+    return response.setGameStatus("Room Status")
+
+def quit_(game, userIn):
+    response = Response("quit")
+
     while True:
         sure = input("Are you sure you want to quit? (y/n)\n>> ").lower()
         if sure in ("y", "yes", "n", "no"):
             break
     if sure in ("y", "yes"):
-        response.addToPrint("Quitting...").setGameStatus("quit")
+        response.addToPrint("Quitting...\n").setGameStatus("quit")
         return response
     else:
-        response.addToPrint("I knew you still had a bit in you").setGameStatus("continue")
+        response.addToPrint("I knew you still had it in you!\n").setGameStatus("continue")
         return response
 
-def xyzzy(game, inputObject):
+def xyzzy(game, userIn):
     pass
 
-def cast(game, inputObject):
+def cast(game, userIn):
     pass
 
-def close(game, inputObject):
+def close(game, userIn):
     pass
 
-def drop(game, inputObject):
+def drop(game, userIn):
     pass
 
-def place(game, inputObject):
+def place(game, userIn):
     pass
 
-def take(game, inputObject):
+def take(game, userIn):
     pass
 
-def talk(game, inputObject):
+def talk(game, userIn):
     pass
 
-def smell(game, inputObject):
+def smell(game, userIn):
     pass
 
-def open_(game, inputObject):
+def open_(game, userIn):
     pass
 
-def use(game, inputObject):
+def use(game, userIn):
     pass
 
-def empty(game, inputObject):
+def empty(game, userIn):
     pass
 
 def examine(game, userIn):
-    response = Response()
+    response = Response("examine")
+
     if not userIn.word2:
         userIn.word2 = input("What do you want to examine?\n>> ").lower()
     if not userIn.word2 in game.activeRoom.contents:

@@ -44,13 +44,15 @@ class Room():
         else:
             return self.west
     
-    def listContents(self, game):
+    def listContents(self, game, response):
         if len(self.contents) >= 1:
-            print("You see:")
+            response.addToPrint("You see:")
             for item in self.contents:
-                print("- " + game.objects[item].name)
+                response.addToPrint("- " + game.objects[item].name)
+            response.addToPrint("")
         else:
-            print("You see nothing of interest.")
+            response.addToPrint("You see nothing of interest.\n")
+        return response
 
 
 """
@@ -103,7 +105,7 @@ roomData = {
         "name": "Weapons Room",
         "description": "A dark room filled with racks upon racks of swords and shields, bows and daggers, and even a few war axes. They glitter eerily in the weak light from the few candles scattered across the room. Examine what you see to check if it will suit your journey.",
         "shortDesc": "It's dark in here. Things glitter eerily in the weak light from the few candles scattered across the room.",
-        "south": "hallway2",
+        "south": "hallway1",
         "odour": "Mmm...beeswax and dried blood.",
     },
     "utilityCloset": {
