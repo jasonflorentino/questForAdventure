@@ -45,7 +45,7 @@ def playGame(game):
 def turn(game):
     command = UserInput()
     if command.isValid:
-        response = execute(game, command)
+        response = execute(game, command) # game_actions.execute() => Response Object
         response.writeResponse()
         return response.gameStatus
     else:

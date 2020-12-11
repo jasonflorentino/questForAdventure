@@ -4,6 +4,9 @@
 from time import sleep
 from .util import write
 
+# Test import
+# from util import write
+
 class Response():
     def __init__(self):
         self.gameStatus = None

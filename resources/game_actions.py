@@ -6,20 +6,22 @@ from .response import Response
 def move(game, inputObject, direction=False):
     response = Response()
     if not direction:
-        direction = input("In what direction do you want to move?\n> ").lower()
+        direction = input("In what direction do you want to move?\n>> ").lower()
         if direction in ("north", "east", "south", "west"):
             pass
         else:
-            response.addToPrint("That's not a direction").setGameStatus("Invalid Input")
+            response.addToPrint("That's not a direction")
+            response.setGameStatus("Invalid Input")
             return response
-    
-    newLocation = game.activeRoom.getNextRoom(direction)
+
+    newLocation = game.getDirectionTarget(direction) # Check if there's a room at given direction
     if newLocation:
         response.addToPrint(game.movePlayer(newLocation))
         response.setGameStatus(direction)
         return response
     else:
-        response.addToPrint("You can't go that way.").setGameStatus("No room at desired direction")
+        response.addToPrint("You can't go that way.")
+        response.setGameStatus("No room at desired direction")
         return response
 
 def north(game, inputObject):
@@ -50,7 +52,7 @@ def look(game, inputObject):
 def quit_(game, inputObject):
     response = Response()
     while True:
-        sure = input("Are you sure you want to quit? (y/n)\n> ").lower()
+        sure = input("Are you sure you want to quit? (y/n)\n>> ").lower()
         if sure in ("y", "yes", "n", "no"):
             break
     if sure in ("y", "yes"):
@@ -96,7 +98,7 @@ def empty(game, inputObject):
 def examine(game, userIn):
     response = Response()
     if not userIn.word2:
-        userIn.word2 = input("What do you want to examine?\n> ").lower()
+        userIn.word2 = input("What do you want to examine?\n>> ").lower()
     if not userIn.word2 in game.activeRoom.contents:
         response.addToPrint(f"There is no {userIn.word2} here.\n")
         response.setGameStatus("Item doesn't exist")
@@ -130,7 +132,6 @@ actionsDict = {
     "xyzzy":xyzzy,
     }
 
-# Each action function returns a response based on querries to Game
+# Each action function => response object based on querries to Game
 def execute(game, userInputObject):
-    response = actionsDict[userInputObject.word1](game, userInputObject)
-    return response
+    return actionsDict[userInputObject.word1](game, userInputObject)

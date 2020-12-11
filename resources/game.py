@@ -48,3 +48,6 @@ class Game():
             roomDesc = here.shortDesc
         roomStatus = f"\n[{here.name}]\n{roomDesc}\n"
         return roomStatus
+    
+    def getDirectionTarget(self, direction):
+        return self.activeRoom.getNextRoom(direction)
