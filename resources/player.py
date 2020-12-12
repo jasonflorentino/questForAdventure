@@ -18,3 +18,11 @@ class Player(object):
     def removeFromInventory(self, itemString):
         self.inventory.remove(itemString)
         return self
+    
+    def listInventory(self, response):
+        if len(self.inventory) == 0:
+            response.addToPrint("There is nothing to show.")
+        else:
+            for itemName in self.inventory:
+                response.addToPrint(f"- {itemName}")
+        return response

@@ -56,3 +56,9 @@ class Game():
     
     def getRoomContents(self, response):
         return self.activeRoom.listContents(self, response)
+    
+    def getInventory(self, response):
+        response.addToPrint("\nYour Inventory:")
+        self.player.listInventory(response)
+        response.addToPrint("")
+        return response

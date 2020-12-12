@@ -37,7 +37,9 @@ def help_(game, userIn):
     pass
 
 def inventory(game, userIn):
-    pass
+    response = Response("inventory")
+    game.getInventory(response)
+    return response.setGameStatus("Show inventory")
 
 def look(game, userIn):
     response = Response("look")
@@ -76,7 +78,9 @@ def place(game, userIn):
     pass
 
 def take(game, userIn):
-    pass
+    response = Response()
+
+    return response
 
 def talk(game, userIn):
     pass
