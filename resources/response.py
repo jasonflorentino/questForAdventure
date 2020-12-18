@@ -21,6 +21,10 @@ class Response():
         self.gameStatus = status
         return self
 
+    def setStatus_Success(self, caller="Unknown caller"):
+        self.gameStatus = f"{caller} set status to: Success"
+        return self
+
     def setStatus_BadInput(self):
         self.gameStatus = "Invalid Input"
         return self

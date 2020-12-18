@@ -27,6 +27,11 @@ class Item(GameObject):
        self.useResp = arguments.get("useResp", False)
        self.dropResp = arguments.get("dropResp", False)
 
+    def takeable(self):
+        if self.isTakeable:
+            return True
+        return False
+
 class Container(Item):
     def __init__(self, arguments):
         Item.__init__(self, arguments)

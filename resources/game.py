@@ -38,6 +38,11 @@ class Game():
         self.player.changeLocation(newLocation)
         self.rooms[newLocation].incrementVisits()
         return self.getStatus(response)
+
+    def inRoomOrInventory(self, itemKey, ITEM_NAME):
+        if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(ITEM_NAME):
+            return True
+        return False
     
     def getStatus(self, response):
         here = self.activeRoom
@@ -62,3 +67,22 @@ class Game():
         self.player.listInventory(response)
         response.addToPrint("")
         return response
+    
+    def takeItem(self, response, item):
+        ITEM_NAME = self.objects[item].name
+
+        if not item in self.objects:    # Check if item exists
+            response.addToPrint("That's not a thing.\n").setStatus_FailedAction("Item doesn't exist")
+            return response
+        elif not self.activeRoom.itemInRoom(item) and not self.player.itemInInventory(ITEM_NAME):  # Check if item is in room
+            response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+        elif not self.objects[item].takeable(): # Check if item is takeable
+            response.addToPrint("You can't take that.\n").setStatus_FailedAction("Item isn't takeable")
+            return response
+        else:
+            self.activeRoom.removeFromContents(item)
+            self.player.addToInventory(ITEM_NAME)
+            response.addToPrint(f"You took the {ITEM_NAME}.\n").setStatus_Success("game.takeItem()")
+            return response
+        

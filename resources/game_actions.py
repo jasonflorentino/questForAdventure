@@ -2,6 +2,7 @@
 # game_actions.py
 
 from .response import Response
+from .util import toCamelCase
 
 def move(game, userIn, direction=False):
     response = Response("move")
@@ -78,9 +79,11 @@ def place(game, userIn):
     pass
 
 def take(game, userIn):
-    response = Response()
-
-    return response
+    response = Response("take")
+    if not userIn.hasSecondInput():
+        userIn.setSecondInput(input("What do you want to take?\n>>").lower())
+    toTake = toCamelCase(userIn.secondInput())
+    return game.takeItem(response, toTake)
 
 def talk(game, userIn):
     pass
@@ -97,17 +100,20 @@ def use(game, userIn):
 def empty(game, userIn):
     pass
 
+# REFACTOR TO HANDLE EXECUTION IN game.py
 def examine(game, userIn):
     response = Response("examine")
+    itemKey = toCamelCase(userIn.word2)
+    ITEM_NAME = userIn.word2.title()
 
-    if not userIn.word2:
-        userIn.word2 = input("What do you want to examine?\n>> ").lower()
-    if not userIn.word2 in game.activeRoom.contents:
-        response.addToPrint(f"There is no {userIn.word2} here.\n")
+    if not userIn.hasSecondInput():    # Get a target if none was given
+        userIn.setSecondInput(input("What do you want to examine?\n>> ").lower())
+    if not game.inRoomOrInventory(itemKey, ITEM_NAME): # Check if item in room or inventory
+        response.addToPrint(f"There is no {ITEM_NAME} here.\n")
         response.setGameStatus("Item doesn't exist")
         return response
     else:
-        output = f"You examine the {userIn.word2}...\n" + game.objects[userIn.word2].description + "\n"
+        output = f"You examine the {ITEM_NAME}...\n" + game.objects[itemKey].description + "\n"
         response.addToPrint(output).setGameStatus("examine")
         return response
 

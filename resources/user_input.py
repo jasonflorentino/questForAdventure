@@ -22,8 +22,23 @@ class UserInput():
 		if self.word1 in actionsDict:
 			self.isValid = True
 
-	def getInput(self):
-		self.matches = self.reg.match(input("> ").lower())
-
 	def hasSecondInput(self):
-		pass
+		if len(self.word2) == 0:
+			return False
+		return True
+	
+	def setSecondInput(self, string, override=False):
+		if len(self.word2) == 0:
+			self.word2 = string
+			return True
+		else:
+			if override:
+				self.word2 = string
+				return True
+			else:
+				return False
+	
+	def secondInput(self):
+		if len(self.word2) == 0:
+			return "No second input"
+		return self.word2

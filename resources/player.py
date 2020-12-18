@@ -5,15 +5,18 @@ class Player(object):
     def __init__(self, name="Player 1"):
         self.name = name
         self.currentLocation = None
-        self.inventory = []
+        self.inventory = [] # List of items as Screen Names
     
     def changeLocation(self, roomString):
         self.currentLocation = roomString
         return self
 
     def addToInventory(self, itemString):
-        self.inventory.append(itemString)
-        return self
+        try:
+            self.inventory.append(itemString)
+            return self
+        except:
+            print("Item wasn't added to inventory")
     
     def removeFromInventory(self, itemString):
         self.inventory.remove(itemString)
@@ -26,3 +29,8 @@ class Player(object):
             for itemName in self.inventory:
                 response.addToPrint(f"- {itemName}")
         return response
+    
+    def itemInInventory(self, item_name):
+        if item_name in self.inventory:
+            return True
+        return False

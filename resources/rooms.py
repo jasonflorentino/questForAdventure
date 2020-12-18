@@ -27,11 +27,11 @@ class Room():
         return self
     
     def removeFromContents(self, itemString):
-        if not itemString in self.contents:
+        if itemString in self.contents:
             self.contents.remove(itemString)
-            return self
+            return itemString
         else:
-            print(f"Item not in contents of {self.name}.")
+            print("That item doesn't exist here.")
             return self
     
     def getNextRoom(self, direction):
@@ -53,6 +53,13 @@ class Room():
         else:
             response.addToPrint("You see nothing of interest.\n")
         return response
+    
+    def itemInRoom(self, itemKey):
+        if itemKey in self.contents:
+            return True
+        else:
+            return False
+
 
 
 """

@@ -7,3 +7,7 @@ def write(text):
         print(letter, end='', flush=True)
         # sleep(.02)            # Uncomment for slow printing
     print()
+
+def toCamelCase(text):
+    wordList = text.lower().split()
+    return wordList[0] + "".join(word.title() for word in wordList[1:])
