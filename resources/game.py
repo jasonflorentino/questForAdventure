@@ -71,8 +71,10 @@ class Game():
         return response
     
     def takeItem(self, response, item):
-        ITEM_NAME = self.objects[item].name
-
+        try:
+            ITEM_NAME = self.objects[item].name
+        except:
+            pass
         if not item in self.objects:    # Check if item exists
             response.addToPrint("That's not a thing.\n").setStatus_FailedAction("Item doesn't exist")
             return response
@@ -86,5 +88,5 @@ class Game():
             self.activeRoom.removeFromContents(item)
             self.player.addToInventory(ITEM_NAME)
             response.addToPrint(f"You took the {ITEM_NAME}.\n").setStatus_Success("game.takeItem()")
-            return response
+            return self.objects[item].getsTaken(response)
         

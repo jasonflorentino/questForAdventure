@@ -31,6 +31,13 @@ class Item(GameObject):
         if self.isTakeable:
             return True
         return False
+    
+    def getsTaken(self, response):
+        if self.takeResp:
+            response.addToPrint(self.takeResp + "\n")
+        else:
+            response.addToPrint("\n")
+        return response
 
 class Container(Item):
     def __init__(self, arguments):
