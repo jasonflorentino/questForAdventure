@@ -22,8 +22,8 @@ class Room():
         self.visits += 1
         return self
 
-    def addToContents(self, itemString):
-        self.contents.append(itemString)
+    def addToContents(self, itemKey):
+        self.contents.append(itemKey)
         return self
     
     def removeFromContents(self, itemString):

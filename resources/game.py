@@ -87,6 +87,22 @@ class Game():
         else:
             self.activeRoom.removeFromContents(item)
             self.player.addToInventory(ITEM_NAME)
-            response.addToPrint(f"You took the {ITEM_NAME}.\n").setStatus_Success("game.takeItem()")
+            response.addToPrint(f"You took the {ITEM_NAME}.").setStatus_Success("game.takeItem()")
             return self.objects[item].getsTaken(response)
-        
+    
+    def dropItem(self, response, item):
+        try:
+            ITEM_NAME = self.objects[item].name
+        except:
+            pass
+        if not item in self.objects:    # Check if item exists
+            response.addToPrint("That's not a thing.\n").setStatus_FailedAction("Item doesn't exist")
+            return response
+        elif not self.player.itemInInventory(ITEM_NAME):  # Check if item is in Inventory
+            response.addToPrint("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
+            return response
+        else:
+            self.player.removeFromInventory(ITEM_NAME)
+            self.activeRoom.addToContents(item)
+            response.addToPrint(f"You dropped the {ITEM_NAME}.").setStatus_Success("game.dropItem()")
+            return self.objects[item].getsDropped(response)

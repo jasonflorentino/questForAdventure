@@ -39,6 +39,13 @@ class Item(GameObject):
             response.addToPrint("\n")
         return response
 
+    def getsDropped(self, response):
+        if self.dropResp:
+            response.addToPrint(self.dropResp + "\n")
+        else:
+            response.addToPrint("\n")
+        return response
+
 class Container(Item):
     def __init__(self, arguments):
         Item.__init__(self, arguments)

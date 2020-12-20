@@ -71,7 +71,12 @@ def close(game, userIn):
     pass
 
 def drop(game, userIn):
-    pass
+    response = Response("drop")
+    if not userIn.hasSecondInput():
+        userIn.setSecondInput(input("What do you want to drop?\n>> ").lower())
+    toDrop = toCamelCase(userIn.secondInput())
+    return game.dropItem(response, toDrop)
+
 
 def place(game, userIn):
     pass
@@ -79,7 +84,7 @@ def place(game, userIn):
 def take(game, userIn):
     response = Response("take")
     if not userIn.hasSecondInput():
-        userIn.setSecondInput(input("What do you want to take?\n>>").lower())
+        userIn.setSecondInput(input("What do you want to take?\n>> ").lower())
     toTake = toCamelCase(userIn.secondInput())
     return game.takeItem(response, toTake)
 

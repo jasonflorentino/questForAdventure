@@ -18,8 +18,8 @@ class Player(object):
         except:
             print("Item wasn't added to inventory")
     
-    def removeFromInventory(self, itemString):
-        self.inventory.remove(itemString)
+    def removeFromInventory(self, item_name):
+        self.inventory.remove(item_name)
         return self
     
     def listInventory(self, response):
