@@ -37,14 +37,14 @@ class Game():
         self.activeRoom = self.rooms[newLocation] # Room Object
         self.player.changeLocation(newLocation)
         self.rooms[newLocation].incrementVisits()
-        return self.getStatus(response)
+        return self.getRoomDescription(response)
 
     def inRoomOrInventory(self, itemKey, ITEM_NAME):
         if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(ITEM_NAME):
             return True
         return False
     
-    def getStatus(self, response):
+    def getRoomDescription(self, response):
         here = self.activeRoom
 
         roomDesc = ""
@@ -60,7 +60,9 @@ class Game():
         return self.activeRoom.getNextRoom(direction)
     
     def getRoomContents(self, response):
-        return self.activeRoom.listContents(self, response)
+        here = self.activeRoom
+        response.addToPrint(f"\nYou look around the {here.name}...")
+        return here.listContents(self, response)
     
     def getInventory(self, response):
         response.addToPrint("\nYour Inventory:")

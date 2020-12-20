@@ -44,8 +44,6 @@ def inventory(game, userIn):
 
 def look(game, userIn):
     response = Response("look")
-
-    game.getStatus(response)
     game.getRoomContents(response)
     return response.setGameStatus("Room Status")
 
