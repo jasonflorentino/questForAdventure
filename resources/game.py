@@ -43,6 +43,17 @@ class Game():
         if item in self.objects:
             return False
         return True
+    
+    def itemIsntInTheSameRoom(self, item):
+        if self.activeRoom.itemInRoom(item):
+            return False
+        return True
+    
+    def itemIsntInPlayerInventory(self, ITEM_NAME):
+        if self.player.itemInInventory(ITEM_NAME):
+            return False
+        return True
+
 
     def inRoomOrInventory(self, itemKey, ITEM_NAME):
         if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(ITEM_NAME):
@@ -100,7 +111,7 @@ class Game():
         if self.itemDoesntExist(item):
             response.set_itemDoesntExist()
             return response
-        elif not self.activeRoom.itemInRoom(item) and not self.player.itemInInventory(ITEM_NAME):  # Check if item is in room
+        elif self.itemIsntInTheSameRoom(item) and self.itemIsntInPlayerInventory(ITEM_NAME):
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
         elif not self.objects[item].takeable(): # Check if item is takeable
@@ -120,7 +131,7 @@ class Game():
         if self.itemDoesntExist(item):
             response.set_itemDoesntExist()
             return response
-        elif not self.player.itemInInventory(ITEM_NAME):  # Check if item is in Inventory
+        elif self.itemIsntInPlayerInventory(ITEM_NAME):
             response.addToPrint("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
             return response
         else:
