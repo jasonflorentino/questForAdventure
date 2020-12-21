@@ -81,6 +81,13 @@ class Container(Item):
         else:
             print(f"The {self.name} is already closed.")
             return self
+    
+    def checkIfOpen(self, response):
+        if self.isOpen:
+            response.addToPrint("It's open")
+        else:
+            response.addToPrint("It's closed...")
+        return response
 
 class Npc(GameObject):
     def __init__(self, arguments):

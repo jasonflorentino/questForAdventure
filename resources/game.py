@@ -98,8 +98,10 @@ class Game():
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
         else:
-            response.addToPrint(f"You examine the {ITEM_NAME}...\n" + self.objects[item].description + "\n")
+            response.addToPrint(f"You examine the {ITEM_NAME}...\n" + self.objects[item].description)
             response.setStatus_Success("game.examineItem()")
+            if isinstance(self.objects[item], Container):
+                self.objects[item].checkIfOpen(response)
             return response
         
 
