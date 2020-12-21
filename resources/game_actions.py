@@ -103,22 +103,12 @@ def use(game, userIn):
 def empty(game, userIn):
     pass
 
-# REFACTOR TO HANDLE EXECUTION IN game.py
 def examine(game, userIn):
     response = Response("examine")
-    itemKey = toCamelCase(userIn.word2)
-    ITEM_NAME = userIn.word2.title()
-
     if not userIn.hasSecondInput():    # Get a target if none was given
         userIn.setSecondInput(input("What do you want to examine?\n>> ").lower())
-    if not game.inRoomOrInventory(itemKey, ITEM_NAME): # Check if item in room or inventory
-        response.addToPrint(f"There is no {ITEM_NAME} here.\n")
-        response.setGameStatus("Item doesn't exist")
-        return response
-    else:
-        output = f"You examine the {ITEM_NAME}...\n" + game.objects[itemKey].description + "\n"
-        response.addToPrint(output).setGameStatus("examine")
-        return response
+    itemKey = toCamelCase(userIn.word2)
+    return game.examineItem(response, itemKey)
 
 actionsDict = {
     "north":north,

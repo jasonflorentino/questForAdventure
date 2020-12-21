@@ -39,6 +39,11 @@ class Game():
         self.rooms[newLocation].incrementVisits()
         return self.getRoomDescription(response)
 
+    def itemDoesntExist(self, item):
+        if item in self.objects:
+            return False
+        return True
+
     def inRoomOrInventory(self, itemKey, ITEM_NAME):
         if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(ITEM_NAME):
             return True
@@ -70,13 +75,30 @@ class Game():
         response.addToPrint("")
         return response
     
+    def examineItem(self, response, item):
+        try:
+            ITEM_NAME = self.objects[item].name
+        except:
+            pass
+        if self.itemDoesntExist(item):
+            response.set_itemDoesntExist()
+            return response
+        elif not self.inRoomOrInventory(item, ITEM_NAME):
+            response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+        else:
+            response.addToPrint(f"You examine the {ITEM_NAME}...\n" + self.objects[item].description + "\n")
+            response.setStatus_Success("game.examineItem()")
+            return response
+        
+
     def takeItem(self, response, item):
         try:
             ITEM_NAME = self.objects[item].name
         except:
             pass
-        if not item in self.objects:    # Check if item exists
-            response.addToPrint("That's not a thing.\n").setStatus_FailedAction("Item doesn't exist")
+        if self.itemDoesntExist(item):
+            response.set_itemDoesntExist()
             return response
         elif not self.activeRoom.itemInRoom(item) and not self.player.itemInInventory(ITEM_NAME):  # Check if item is in room
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
@@ -95,8 +117,8 @@ class Game():
             ITEM_NAME = self.objects[item].name
         except:
             pass
-        if not item in self.objects:    # Check if item exists
-            response.addToPrint("That's not a thing.\n").setStatus_FailedAction("Item doesn't exist")
+        if self.itemDoesntExist(item):
+            response.set_itemDoesntExist()
             return response
         elif not self.player.itemInInventory(ITEM_NAME):  # Check if item is in Inventory
             response.addToPrint("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
