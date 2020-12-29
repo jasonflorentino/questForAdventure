@@ -93,6 +93,22 @@ class Game():
         response.addToPrint("")
         return response
     
+    def checkItemContents(self, response, itemKey):
+        if self.objects[itemKey].checkIfOpen():
+            CONTENTS = self.objects[itemKey].getContents()
+            PREP = self.objects[itemKey].getPrep()
+            if len(CONTENTS) == 0:
+                response.addToPrint(f"There is nothing {PREP}.")
+            else:
+                response.addToPrint(f"There is something {PREP}...")
+                for itemKey in CONTENTS:
+                    ITEM_NAME = self.objects[itemKey].getName()
+                    response.addToPrint(f"- {ITEM_NAME}")
+        else:
+            response.addToPrint("It's closed...")
+        response.addToPrint("")
+        return response
+    
     def examineItem(self, response, itemKey):
         if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
@@ -106,19 +122,7 @@ class Game():
             response.addToPrint(f"You examine the {itemName}...\n{itemDescription}")
             response.setStatus_Success("game.examineItem()")
             if isinstance(self.objects[itemKey], Container):
-                if self.objects[itemKey].checkIfOpen():
-                    CONTENTS = self.objects[itemKey].getContents()
-                    PREP = self.objects[itemKey].getPrep()
-                    if len(CONTENTS) == 0:
-                        response.addToPrint(f"There is nothing {PREP}.")
-                    else:
-                        response.addToPrint(f"There is something {PREP}...")
-                        for itemKey in CONTENTS:
-                            ITEM_NAME = self.objects[itemKey].getName()
-                            response.addToPrint(f"- {ITEM_NAME}")
-                else:
-                    response.addToPrint("It's closed...")
-                response.addToPrint("")
+                self.checkItemContents(response, itemKey)
             return response
 
     def takeItem(self, response, itemKey):
