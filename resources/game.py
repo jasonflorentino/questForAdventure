@@ -107,9 +107,18 @@ class Game():
             response.setStatus_Success("game.examineItem()")
             if isinstance(self.objects[itemKey], Container):
                 if self.objects[itemKey].checkIfOpen():
-                    response.addToPrint("It's open")
+                    CONTENTS = self.objects[itemKey].getContents()
+                    PREP = self.objects[itemKey].getPrep()
+                    if len(CONTENTS) == 0:
+                        response.addToPrint(f"There is nothing {PREP}.")
+                    else:
+                        response.addToPrint(f"There is something {PREP}...")
+                        for itemKey in CONTENTS:
+                            ITEM_NAME = self.objects[itemKey].getName()
+                            response.addToPrint(f"- {ITEM_NAME}")
                 else:
                     response.addToPrint("It's closed...")
+                response.addToPrint("")
             return response
 
     def takeItem(self, response, itemKey):

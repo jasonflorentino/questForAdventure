@@ -59,6 +59,7 @@ class Container(Item):
         self.isOpen = arguments.get("isOpen", False)
         self.isCloseable = arguments.get("isCloseable", True)
         self.contents = arguments.get("contents", [])
+        self.preposition = arguments.get("preposition", "inside")
     
     def addToContents(self, objectString):
         self.contents.append(objectString)
@@ -93,6 +94,12 @@ class Container(Item):
             return True
         else:
             return False
+    
+    def getContents(self):
+        return self.contents
+    
+    def getPrep(self):
+        return self.preposition
 
 class Npc(GameObject):
     def __init__(self, arguments):
@@ -228,6 +235,7 @@ containerObjectData = {
         "isContainer": True,
         "isOpen": True,
         "isCloseable": False,
+        "preposition": "on top"
     }
 
 }
