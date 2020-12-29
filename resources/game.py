@@ -54,7 +54,6 @@ class Game():
             return False
         return True
 
-
     def inRoomOrInventory(self, itemKey, ITEM_NAME):
         if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(ITEM_NAME):
             return True
@@ -67,7 +66,10 @@ class Game():
         if here.visits == 1:
             roomDesc = here.description
         else:
-            roomDesc = here.shortDesc
+            if here.shortDesc:
+                roomDesc = here.shortDesc
+            else:
+                roomDesc = here.description  
 
         response.addToPrint(f"\n[{here.name}]\n{roomDesc}\n")
         return response
@@ -103,7 +105,6 @@ class Game():
             if isinstance(self.objects[item], Container):
                 self.objects[item].checkIfOpen(response)
             return response
-        
 
     def takeItem(self, response, item):
         try:

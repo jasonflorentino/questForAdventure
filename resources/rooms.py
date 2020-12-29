@@ -147,6 +147,47 @@ roomData = {
         "description": "Ah, fresh air! Something you've clearly not had enough of recently. You are so close to adventure you can smell it. Now you just have to decide where to go.",
         "shortDesc": "Ah, fresh air! You are so close to adventure you can smell it. Now you just have to decide where to go.",
         "odour": "Smells like adventure!",
-        "east": "hallway2"
+        "north": "cavernousMountains",
+        "east": "hallway2",
+        "west": "darkForest",
+    },
+    "cavernousMountains": {
+        "name": "Cavernous Mountains",
+        "description": "The mountains loom over you. A darkened crack in the northern rock face seems to lead into the mountains.",
+        "north": "cave",
+        "south": "frontGates",
+    },
+    "cave": {
+        "name": "Cave",
+        "description": "It is dark and damp in the cave. There is a crack of light coming from the south entrance. It seems to fall upon a strange stone lying on the ground.",
+        "odour": "It smells like stale water and dust.",
+        "south": "cavernousMountains"
+    },
+    "darkForest": {
+        "name": "Dark Forest",
+        "description": "Large trees surround you, moving quietly in the wind. You can see a faint light coming from the East where you entered. There seems to be a lightly trodden path leading North. The forest becomes denser to the South, with no path in sight; seemingly unexplored land.",
+        "odour": "The air coming from the East is fresh. The forest smells like trees and dirt. What else?",
+        "north": "troddenPath",
+        "east": "frontGates",
+        "south": "unexploredForest"
+    },
+    "unexploredForest": {
+        "name": "Unexplored Forest",
+        "description": "This part of the forest is wild and thick with trees and bushes. A large oak tree is in front of you. The air seems heavier here; filled with an old magic you don't quite understand.",
+        "odour": "The air is humid and still. It smells like a mix of trees and dirt, as well as something you can't quite put your finger on.",
+        "north": "darkForest"
+    },
+    "troddenPath": {
+        "name": "Trodden Path",
+        "description": "At the north end of the path you see daylight and can faintly smell smoke. Berry bushes line the path.",
+        "odour": "The smoke seems to be coming from the north. Maybe there is a bonfire! Or a stake burning! Oh how I love a good stake burning.",
+        "north": "theVillage",
+        "south": "darkForest"
+    },
+    "theVillage": {
+        "name": "The Village",
+        "description": "The village seems to have been attacked! The thatch roofed cottages have been burnt down and it seems like the villagers are in distress!",
+        "odour": "The smell of smoke is strong. You start to cough.",
+        "south": "troddenPath"
     }
 }

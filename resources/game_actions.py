@@ -77,7 +77,6 @@ def drop(game, userIn):
     toDrop = toCamelCase(userIn.secondInput())
     return game.dropItem(response, toDrop)
 
-
 def place(game, userIn):
     pass
 

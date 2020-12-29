@@ -157,6 +157,11 @@ itemObjectData = {
         "name": "Lavish Gifts",
         "description": "Oooh...shiny. Lots of gold this and bejewelled that up here.",
         "isVisible": True,
+    },
+    "soapyWater": {
+        "name": "Soapy Water",
+        "description": "The water is murky and topped with bubbles.",
+        "odour": "Lemony Fresh!",
     }
 }
 
@@ -185,8 +190,22 @@ containerObjectData = {
         "isContainer": True,
         "isOpen": False,
         "isCloseable": True,
-        "contents": []
-    }
+    },
+    "bucket": {
+        "name": "Bucket",
+        "description": "It looks like the maids just finished cleaning and left this here.",
+        "isVisible": True,
+        "isTakeable": True,
+        "isUseable": True,
+        "isReusable": True,
+        "takeResp": "What? Are you going to clean your chamber pot with this?",
+        "useResp": "You pour its contents onto the floor.",
+        "isContainer": True,
+        "isOpen": True,
+        "isCloseable": False,
+        "contents": ["soapyWater"]       
+    },
+
 }
 
 npcObjectData = {
