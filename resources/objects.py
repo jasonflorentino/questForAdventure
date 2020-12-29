@@ -12,6 +12,12 @@ class GameObject():
         self.odour = arguments.get("odour", False)
         self.isVisible = arguments.get("isVisible", False)
     
+    def getName(self):
+        return self.name
+
+    def getDescription(self):
+        return self.description
+
     def toggleVisibility(self):
         self.isVisible = not self.isVisible
         return self
@@ -82,12 +88,11 @@ class Container(Item):
             print(f"The {self.name} is already closed.")
             return self
     
-    def checkIfOpen(self, response):
+    def checkIfOpen(self):
         if self.isOpen:
-            response.addToPrint("It's open")
+            return True
         else:
-            response.addToPrint("It's closed...")
-        return response
+            return False
 
 class Npc(GameObject):
     def __init__(self, arguments):

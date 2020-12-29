@@ -39,7 +39,7 @@ def help_(game, userIn):
 
 def inventory(game, userIn):
     response = Response("inventory")
-    game.getInventory(response)
+    game.listInventory(response)
     return response.setGameStatus("Show inventory")
 
 def look(game, userIn):

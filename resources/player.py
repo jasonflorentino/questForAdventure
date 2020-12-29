@@ -11,26 +11,18 @@ class Player(object):
         self.currentLocation = roomString
         return self
 
-    def addToInventory(self, itemString):
-        try:
-            self.inventory.append(itemString)
-            return self
-        except:
-            print("Item wasn't added to inventory")
-    
-    def removeFromInventory(self, item_name):
-        self.inventory.remove(item_name)
+    def addToInventory(self, itemKey):
+        self.inventory.append(itemKey)
         return self
     
-    def listInventory(self, response):
-        if len(self.inventory) == 0:
-            response.addToPrint("There is nothing to show.")
-        else:
-            for itemName in self.inventory:
-                response.addToPrint(f"- {itemName}")
-        return response
+    def removeFromInventory(self, itemKey):
+        self.inventory.remove(itemKey)
+        return self
     
-    def itemInInventory(self, item_name):
-        if item_name in self.inventory:
+    def getInventory(self):
+        return self.inventory
+    
+    def itemInInventory(self, itemKey):
+        if itemKey in self.inventory:
             return True
         return False

@@ -44,18 +44,18 @@ class Game():
             return False
         return True
     
-    def itemIsntInTheSameRoom(self, item):
-        if self.activeRoom.itemInRoom(item):
+    def itemIsntInTheSameRoom(self, itemKey):
+        if self.activeRoom.itemInRoom(itemKey):
             return False
         return True
     
-    def itemIsntInPlayerInventory(self, ITEM_NAME):
-        if self.player.itemInInventory(ITEM_NAME):
+    def itemIsntInPlayerInventory(self, itemKey):
+        if self.player.itemInInventory(itemKey):
             return False
         return True
 
-    def inRoomOrInventory(self, itemKey, ITEM_NAME):
-        if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(ITEM_NAME):
+    def inRoomOrInventory(self, itemKey):
+        if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(itemKey):
             return True
         return False
     
@@ -82,63 +82,63 @@ class Game():
         response.addToPrint(f"\nYou look around the {here.name}...")
         return here.listContents(self, response)
     
-    def getInventory(self, response):
+    def listInventory(self, response):
         response.addToPrint("\nYour Inventory:")
-        self.player.listInventory(response)
+        INVENTORY = self.player.getInventory()
+        if len(INVENTORY) == 0:
+            response.addToPrint("There is nothing to show.")
+        else:
+            for itemKey in INVENTORY:
+                response.addToPrint(f"- {self.objects[itemKey].getName()}")
         response.addToPrint("")
         return response
     
-    def examineItem(self, response, item):
-        try:
-            ITEM_NAME = self.objects[item].name
-        except:
-            pass
-        if self.itemDoesntExist(item):
+    def examineItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
             return response
-        elif not self.inRoomOrInventory(item, ITEM_NAME):
+        elif not self.inRoomOrInventory(itemKey):
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
         else:
-            response.addToPrint(f"You examine the {ITEM_NAME}...\n" + self.objects[item].description)
+            itemName = self.objects[itemKey].getName()
+            itemDescription = self.objects[itemKey].getDescription()
+            response.addToPrint(f"You examine the {itemName}...\n{itemDescription}")
             response.setStatus_Success("game.examineItem()")
-            if isinstance(self.objects[item], Container):
-                self.objects[item].checkIfOpen(response)
+            if isinstance(self.objects[itemKey], Container):
+                if self.objects[itemKey].checkIfOpen():
+                    response.addToPrint("It's open")
+                else:
+                    response.addToPrint("It's closed...")
             return response
 
-    def takeItem(self, response, item):
-        try:
-            ITEM_NAME = self.objects[item].name
-        except:
-            pass
-        if self.itemDoesntExist(item):
+    def takeItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
             return response
-        elif self.itemIsntInTheSameRoom(item) and self.itemIsntInPlayerInventory(ITEM_NAME):
+        elif self.itemIsntInTheSameRoom(itemKey) and self.itemIsntInPlayerInventory(itemKey):
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
-        elif not self.objects[item].takeable(): # Check if item is takeable
+        elif not self.objects[itemKey].takeable(): # Check if item is takeable
             response.addToPrint("You can't take that.\n").setStatus_FailedAction("Item isn't takeable")
             return response
         else:
-            self.activeRoom.removeFromContents(item)
-            self.player.addToInventory(ITEM_NAME)
-            response.addToPrint(f"You took the {ITEM_NAME}.").setStatus_Success("game.takeItem()")
-            return self.objects[item].getsTaken(response)
+            itemName = self.objects[itemKey].getName()
+            self.activeRoom.removeFromContents(itemKey)
+            self.player.addToInventory(itemKey)
+            response.addToPrint(f"You took the {itemName}.").setStatus_Success("game.takeItem()")
+            return self.objects[itemKey].getsTaken(response)
     
-    def dropItem(self, response, item):
-        try:
-            ITEM_NAME = self.objects[item].name
-        except:
-            pass
-        if self.itemDoesntExist(item):
+    def dropItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
             return response
-        elif self.itemIsntInPlayerInventory(ITEM_NAME):
+        elif self.itemIsntInPlayerInventory(itemKey):
             response.addToPrint("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
             return response
         else:
-            self.player.removeFromInventory(ITEM_NAME)
-            self.activeRoom.addToContents(item)
-            response.addToPrint(f"You dropped the {ITEM_NAME}.").setStatus_Success("game.dropItem()")
-            return self.objects[item].getsDropped(response)
+            itemName = self.objects[itemKey].getName()
+            self.player.removeFromInventory(itemKey)
+            self.activeRoom.addToContents(itemKey)
+            response.addToPrint(f"You dropped the {itemName}.").setStatus_Success("game.dropItem()")
+            return self.objects[itemKey].getsDropped(response)
