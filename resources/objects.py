@@ -123,20 +123,16 @@ itemObjectData = {
         "description": "It is comfortable and warm. No place for an Adventurer like yourself!",
         "odour": "The sweet smell of fresh linen and days wasted.",
         "isVisible": True,
-        "isTakeable": False,
         "isUseable": True,
         "isReusable": True,
-        "isUsed": False,
         "useResp": "I guess we could just forget this whole adventure thing that happens to be *your calling in life*. Or you could get up, you lazy, son of a bar wench",
     },
     "mirror": {
         "name": "Mirror",
         "description": "You can't help but wonder if the chain-mail makes your butt look big.",
         "isVisible": True,
-        "isTakeable": False,
         "isUseable": True,
         "isReusable": True,
-        "isUsed": False,
         "useResp": "You can't help but wonder if the chain-mail makes your butt look big.",
     },
     "armour": {
@@ -162,6 +158,21 @@ itemObjectData = {
         "name": "Soapy Water",
         "description": "The water is murky and topped with bubbles.",
         "odour": "Lemony Fresh!",
+    },
+    "broom": {
+        "name": "Broom",
+        "description": "This is a broom. You sweep the floor with it. It is used to clean. Cleaning is making things not dirty. I don't think you understand.",
+        "isVisible": True,
+        "isTakeable": True,
+        "isUseable": True,
+        "isReusable": True,
+        "takeResp": "Well, there's a first for everything.",
+        "useResp": "You sweep.",
+    },
+    "candles": {
+        "name": "Candles",
+        "description": "Who lit these? This is definitely a fire hazard.",
+        "isVisible": True,
     }
 }
 
@@ -205,6 +216,14 @@ containerObjectData = {
         "isCloseable": False,
         "contents": ["soapyWater"]       
     },
+    "dustyShelf": {
+        "name": "Dusty Shelf",
+        "description": "Looks like the one place in the house that doesn't get cleaned.",
+        "isVisible": True,
+        "isContainer": True,
+        "isOpen": True,
+        "isCloseable": False,
+    }
 
 }
 

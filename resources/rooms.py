@@ -114,12 +114,14 @@ roomData = {
         "shortDesc": "It's dark in here. Things glitter eerily in the weak light from the few candles scattered across the room.",
         "south": "hallway1",
         "odour": "Mmm...beeswax and dried blood.",
+        "contents": ["candles"]
     },
     "utilityCloset": {
         "name": "Utility Closet",
         "description": "Well, this is a closet, that's for sure.",
         "shortDesc": "Yup, still a closet.",
         "north": "hallway1",
+        "contents": ["dustyShelf", "broom", "bucket"]
     },
     "hallway2": {
         "name": "Hallway",
