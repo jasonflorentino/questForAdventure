@@ -68,7 +68,11 @@ def cast(game, userIn):
     pass
 
 def close(game, userIn):
-    pass
+    response = Response("close")
+    if not userIn.hasSecondInput():
+       userIn.setSecondInput(input("What do you want to close?\n>> ").lower())
+    toClose = toCamelCase(userIn.secondInput())
+    return game.closeItem(response, toClose)
 
 def drop(game, userIn):
     response = Response("drop")
@@ -94,7 +98,11 @@ def smell(game, userIn):
     pass
 
 def open_(game, userIn):
-    pass
+    response = Response("open")
+    if not userIn.hasSecondInput():
+       userIn.setSecondInput(input("What do you want to open?\n>> ").lower())
+    toOpen = toCamelCase(userIn.secondInput())
+    return game.openItem(response, toOpen)
 
 def use(game, userIn):
     pass

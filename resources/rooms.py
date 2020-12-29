@@ -59,6 +59,9 @@ class Room():
             return True
         else:
             return False
+    
+    def getContents(self):
+        return self.contents
 
 
 

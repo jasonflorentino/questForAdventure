@@ -54,11 +54,21 @@ class Game():
             return False
         return True
 
-    def inRoomOrInventory(self, itemKey):
-        if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(itemKey):
+    def inRoomOrInventoryOrContainers(self, itemKey):
+        if self.activeRoom.itemInRoom(itemKey) or self.player.itemInInventory(itemKey) or self.checkContainers(itemKey):
             return True
         return False
     
+    def checkContainers(self, itemKey):
+        ITEMS = self.activeRoom.getContents() + self.player.getInventory()
+        for item in ITEMS:
+            if isinstance(self.objects[item], Container):
+                if self.objects[item].checkIfOpen():
+                    for content in self.objects[item].getContents():
+                        if itemKey == content:
+                            return True
+        return False
+
     def getRoomDescription(self, response):
         here = self.activeRoom
 
@@ -106,14 +116,13 @@ class Game():
                     response.addToPrint(f"- {ITEM_NAME}")
         else:
             response.addToPrint("It's closed...")
-        response.addToPrint("")
         return response
     
     def examineItem(self, response, itemKey):
         if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
             return response
-        elif not self.inRoomOrInventory(itemKey):
+        elif not self.inRoomOrInventoryOrContainers(itemKey):
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
         else:
@@ -123,6 +132,7 @@ class Game():
             response.setStatus_Success("game.examineItem()")
             if isinstance(self.objects[itemKey], Container):
                 self.checkItemContents(response, itemKey)
+            response.addToPrint("")
             return response
 
     def takeItem(self, response, itemKey):
@@ -155,3 +165,48 @@ class Game():
             self.activeRoom.addToContents(itemKey)
             response.addToPrint(f"You dropped the {itemName}.").setStatus_Success("game.dropItem()")
             return self.objects[itemKey].getsDropped(response)
+    
+    def openItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
+            response.set_itemDoesntExist()
+            return response
+        elif not self.inRoomOrInventoryOrContainers(itemKey):
+            response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+        elif not isinstance(self.objects[itemKey], Container):
+            response.addToPrint("You can't open that.\n").setStatus_FailedAction("Item isn't a container")
+            return response
+        elif self.objects[itemKey].checkIfOpen():
+            response.addToPrint("It's already open.\n")
+            self.checkItemContents(response, itemKey)
+            return response
+        else:
+            self.objects[itemKey].toggleOpen()
+            ITEM_NAME = self.objects[itemKey].getName()
+            response.addToPrint(f"You open the {ITEM_NAME}...")
+            self.checkItemContents(response, itemKey)
+            response.addToPrint("")
+            return response
+    
+    def closeItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
+            response.set_itemDoesntExist()
+            return response
+        elif not self.inRoomOrInventoryOrContainers(itemKey):
+            response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+        elif not isinstance(self.objects[itemKey], Container):
+            response.addToPrint("You can't close that.\n").setStatus_FailedAction("Item isn't a container")
+            return response
+        elif not self.objects[itemKey].checkIfOpen():
+            response.addToPrint("It's already closed.\n")
+            return response
+        elif not self.objects[itemKey].isCloseable:
+            response.addToPrint("You can't close that.\n").setStatus_FailedAction("Container cannot be closed")
+            return response
+        else:
+            ITEM_NAME = self.objects[itemKey].getName()
+            self.objects[itemKey].toggleOpen()
+            response.addToPrint(f"You closed the {ITEM_NAME}.\n")
+            return response
+

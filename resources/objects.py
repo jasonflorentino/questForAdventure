@@ -72,22 +72,6 @@ class Container(Item):
     def toggleOpen(self):
         self.isOpen = not self.isOpen
         return self
-
-    def openContainer(self):
-        if self.isOpen:
-            print(f"The {self.name} is already open.")
-            return self
-        else:
-            self.toggleOpen()
-            return self
-
-    def closeContainer(self):
-        if self.isOpen:
-            self.toggleOpen()
-            return self
-        else:
-            print(f"The {self.name} is already closed.")
-            return self
     
     def checkIfOpen(self):
         if self.isOpen:
