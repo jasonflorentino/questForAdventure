@@ -118,6 +118,14 @@ class Game():
             response.addToPrint("It's closed...")
         return response
     
+    def makeContentsTakeable(self, itemKey):
+        for item in self.objects[itemKey].getContents():
+            self.objects[item].makeTakeable()
+
+    def makeContentsUntakeable(self, itemKey):
+        for item in self.objects[itemKey].getContents():
+            self.objects[item].makeUntakeable()
+    
     def examineItem(self, response, itemKey):
         if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
@@ -139,7 +147,7 @@ class Game():
         if self.itemDoesntExist(itemKey):
             response.set_itemDoesntExist()
             return response
-        elif self.itemIsntInTheSameRoom(itemKey) and self.itemIsntInPlayerInventory(itemKey):
+        elif not self.inRoomOrInventoryOrContainers(itemKey):
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
         elif not self.objects[itemKey].takeable(): # Check if item is takeable
@@ -147,7 +155,13 @@ class Game():
             return response
         else:
             itemName = self.objects[itemKey].getName()
-            self.activeRoom.removeFromContents(itemKey)
+            ROOM_CONTENTS = self.activeRoom.getContents()
+            if itemKey in ROOM_CONTENTS:
+                self.activeRoom.removeFromContents(itemKey)
+            else:
+                for item in ROOM_CONTENTS:
+                    if isinstance(self.objects[item], Container) and self.objects[item].checkIfOpen():
+                        self.objects[item].removeFromContents(itemKey)
             self.player.addToInventory(itemKey)
             response.addToPrint(f"You took the {itemName}.").setStatus_Success("game.takeItem()")
             return self.objects[itemKey].getsTaken(response)
@@ -177,14 +191,16 @@ class Game():
             response.addToPrint("You can't open that.\n").setStatus_FailedAction("Item isn't a container")
             return response
         elif self.objects[itemKey].checkIfOpen():
-            response.addToPrint("It's already open.\n")
+            response.addToPrint("It's already open.")
             self.checkItemContents(response, itemKey)
+            response.addToPrint("")
             return response
         else:
             self.objects[itemKey].toggleOpen()
             ITEM_NAME = self.objects[itemKey].getName()
             response.addToPrint(f"You open the {ITEM_NAME}...")
             self.checkItemContents(response, itemKey)
+            self.makeContentsTakeable(itemKey)
             response.addToPrint("")
             return response
     
@@ -207,6 +223,7 @@ class Game():
         else:
             ITEM_NAME = self.objects[itemKey].getName()
             self.objects[itemKey].toggleOpen()
+            self.makeContentsUntakeable(itemKey)
             response.addToPrint(f"You closed the {ITEM_NAME}.\n")
             return response
 

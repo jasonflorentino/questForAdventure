@@ -38,6 +38,14 @@ class Item(GameObject):
             return True
         return False
     
+    def makeTakeable(self):
+        self.isTakeable = True
+        return self
+
+    def makeUntakeable(self):
+        self.isTakeable = False
+        return self
+    
     def getsTaken(self, response):
         if self.takeResp:
             response.addToPrint(self.takeResp + "\n")
@@ -61,12 +69,12 @@ class Container(Item):
         self.contents = arguments.get("contents", [])
         self.preposition = arguments.get("preposition", "inside")
     
-    def addToContents(self, objectString):
-        self.contents.append(objectString)
+    def addToContents(self, itemKey):
+        self.contents.append(itemKey)
         return self
 
-    def removeFromContents(self, objectString):
-        self.contents.remove(objectString)
+    def removeFromContents(self, itemKey):
+        self.contents.remove(itemKey)
         return self
     
     def toggleOpen(self):
