@@ -62,6 +62,15 @@ class Room():
     
     def getContents(self):
         return self.contents
+    
+    def hasOdour(self):
+        if self.odour:
+            return True
+        else:
+            return False
+
+    def getOdour(self):
+        return self.odour
 
 
 

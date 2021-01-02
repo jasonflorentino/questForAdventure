@@ -39,5 +39,5 @@ class Response():
         return self
     
     def set_itemDoesntExist(self):
-        self.addToPrint("That's not a thing.\n").setStatus_FailedAction("Item doesn't exist")
+        self.addToPrint("That's not a thing.").setStatus_FailedAction("Item doesn't exist")
         return self

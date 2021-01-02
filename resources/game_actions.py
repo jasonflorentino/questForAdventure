@@ -95,7 +95,13 @@ def talk(game, userIn):
     pass
 
 def smell(game, userIn):
-    pass
+    response = Response("smell")
+    if not userIn.hasSecondInput():
+        game.smellRoom(response)
+    else:
+        toSmell = toCamelCase(userIn.secondInput())
+        game.smellItem(response, toSmell)
+    return response
 
 def open_(game, userIn):
     response = Response("open")
