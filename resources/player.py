@@ -5,7 +5,7 @@ class Player(object):
     def __init__(self, name="Player 1"):
         self.name = name
         self.currentLocation = None
-        self.inventory = [] # List of items as Screen Names
+        self.inventory = ["lint"] # List of items as Screen Names
     
     def changeLocation(self, roomString):
         self.currentLocation = roomString

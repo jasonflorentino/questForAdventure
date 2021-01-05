@@ -150,7 +150,7 @@ class Game():
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
             return response
         elif not self.objects[itemKey].takeable(): # Check if item is takeable
-            response.addToPrint("You can't take that.\n").setStatus_FailedAction("Item isn't takeable")
+            response.addToPrint("I think that should stay right where it is.\n").setStatus_FailedAction("Item isn't takeable")
             return response
         else:
             itemName = self.objects[itemKey].getName()
@@ -256,15 +256,19 @@ class Game():
     # Get target item and check if valid
         target = input("Where do you want to put it?\n>> ").lower()
         if target in ("down", "ground", "floor"):
-            response.addToPrint("Do you mean 'Drop'?\n").setStatus_FailedAction("Should be drop not put")
+            response.setStatus_FailedAction("Dropping item instead...")
+            self.dropItem(response, itemKey)
             return response
         else:
             target = toCamelCase(target)
 
         if self.itemDoesntExist(target):
             response.set_itemDoesntExist()
-        elif not self.inRoomOrInventoryOrContainers(itemKey):
-            response.addToPrint("There is none here.").setStatus_FailedAction("Item not in room or inventory")
+            response.addToPrint("")
+            return response
+        elif not self.inRoomOrInventoryOrContainers(target):
+            response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
 
     # Execute (halt if target is a container and isn't open)
         ITEM_NAME = self.objects[itemKey].getName()

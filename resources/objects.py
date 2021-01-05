@@ -59,14 +59,14 @@ class Item(GameObject):
         if self.takeResp:
             response.addToPrint(self.takeResp + "\n")
         else:
-            response.addToPrint("\n")
+            response.addToPrint("")
         return response
 
     def getsDropped(self, response):
         if self.dropResp:
             response.addToPrint(self.dropResp + "\n")
         else:
-            response.addToPrint("\n")
+            response.addToPrint("")
         return response
 
 class Container(Item):
@@ -186,6 +186,58 @@ itemObjectData = {
         "name": "Candles",
         "description": "Who lit these? This is definitely a fire hazard.",
         "isVisible": True,
+    },
+    "warAxe": {
+        "name": "War Axe",
+        "description": "Ah the good old days when you could swing an axe the same size as you. I think it would be better to try another weapon since you aren't as strong as you used to be.",
+        "isVisible": True,
+    },
+    "dagger": {
+        "name": "Dagger",
+        "description": "Useful during your days of thieving, but you aren't quite stealthy enough now that you've gained more than a couple of pounds eating cake with the King.",
+        "isVisible": True,
+    },
+    "bow": {
+        "name": "Bow",
+        "description": "One of your first weapons.  You used to shoot bottles of mead off the barrack walls. It seems as though you've long since ran out of arrows, and your eyes aren't what they once were.",
+        "isVisible": True, 
+    },
+    "sword": {
+        "name": "Sword",
+        "description": "The light dances across the blade. This is your most trusted weapon, sure to help you in battle.",
+        "isVisible": True,
+        "isTakeable": True,
+        "isUseable": True,
+        "isReusable": True,
+        "takeResp": "As you grasp the hilt you are reminded of past battles won, and a single tear comes to your eyes. All this time lounging with royalty seems to have made you soft. You sheath your weapon after taking a few practice swings around the room, then wipe your tear before anyone sees.",
+        "useResp": "Woah! Watch where you swing that thing!",
+    },
+    "shield": {
+        "name": "Shield",
+        "description": "There are dents all over this thing! This shield has saved your life on a number of occasions.",
+        "isVisible": True,
+        "isTakeable": True,
+        "isUseable": True,
+        "isReusable": True,
+        "takeResp": "Heavy, but a life-saver. I wonder how it feels on your arm after all this time.",
+        "useResp": "You slip your arm through the straps and grasp tightly. You start to feel more confident in your choice to go adventuring.",
+    },
+    "note": {
+        "name": "Note",
+        "description": "The note says 'xyzzy' in scrawled writing. Just a bunch of nonsense!",
+        "isTakeable": True,
+    },
+    "signPost": {
+        "name": "Sign Post",
+        "description": "North: Cavernous Mountains.\nWest: Dark Forest.\nSouth: Bog\nEast: Private Property.",
+        "isVisible": True,
+    },
+    "lint": {
+        "name": "Lint",
+        "isVisible": True,
+        "description": "You question your life choices.",
+        "isTakeable": True,
+        "takeResp": 'Of course. Sure. Why not.',
     }
 }
 
@@ -237,6 +289,17 @@ containerObjectData = {
         "isOpen": True,
         "isCloseable": False,
         "preposition": "on top"
+    },
+    "chest": {
+        "name": "Chest",
+        "description": "Ok fine. But it's just an old musty chest, sitting in an old musty room. Definitely not of any importance. It's probably rusted shut!",
+        "odour": "It smells old and musty.",
+        "useResp": "Wow. You don't give up, do you? No need to look at anything in here. Just dust and cobwebs.",
+        "isVisible": True,
+        "isContainer": True,
+        "isOpen": False,
+        "isCloseable": True,
+        "contents": ["note"]    
     }
 
 }

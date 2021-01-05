@@ -126,7 +126,7 @@ roomData = {
         "shortDesc": "It's dark in here. Things glitter eerily in the weak light from the few candles scattered across the room.",
         "south": "hallway1",
         "odour": "Mmm...beeswax and dried blood.",
-        "contents": ["candles"]
+        "contents": ["candles", "warAxe", "dagger", "bow", "sword", "shield"]
     },
     "utilityCloset": {
         "name": "Utility Closet",
@@ -155,15 +155,17 @@ roomData = {
         "description": "Doesn't look like there's anything in here. Don't bother looking around. Certainly no chests in here. You should probably just go back North.",
         "shortDesc": "Still doesn't look like there's anything in here. You should probably just go back North.",
         "north": "hallway2",
+        "contents": ["chest"]
     },
     "frontGates": {
         "name": "Front Gates",
         "description": "Ah, fresh air! Something you've clearly not had enough of recently. You are so close to adventure you can smell it. Now you just have to decide where to go.",
-        "shortDesc": "That sweet, sweet air! You are so close to adventure you can smell it. Now you just have to decide where to go.",
+        "shortDesc": "That sweet, sweet air! You are so close to adventure you can smell it.",
         "odour": "Smells like adventure!",
         "north": "cavernousMountains",
         "east": "hallway2",
         "west": "darkForest",
+        "contents": ["signpost"]
     },
     "cavernousMountains": {
         "name": "Cavernous Mountains",
