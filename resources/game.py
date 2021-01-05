@@ -6,8 +6,9 @@ from .game_events import *
 from .player import *
 from .rooms import *
 from .objects import *
+from .util import toCamelCase
 
-# Imports if run from source file
+# Imports if running game.py
 # from game_events import *
 # from player import *
 # from rooms import *
@@ -239,5 +240,44 @@ class Game():
                 response.addToPrint(f"They pull back, alarmed and mildly repulsed.")
             else:
                 response.addToPrint(f"It doesn't smell like much.")
+        response.addToPrint("")
+        return response
+    
+    def putItem(self, response, itemKey):
+    # Check if valid item
+        if self.itemDoesntExist(itemKey):
+            response.set_itemDoesntExist()
+            response.addToPrint("")
+            return response
+        elif self.itemIsntInPlayerInventory(itemKey):
+            response.addToPrint("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
+            return response
+        
+    # Get target item and check if valid
+        target = input("Where do you want to put it?\n>> ").lower()
+        if target in ("down", "ground", "floor"):
+            response.addToPrint("Do you mean 'Drop'?\n").setStatus_FailedAction("Should be drop not put")
+            return response
+        else:
+            target = toCamelCase(target)
+
+        if self.itemDoesntExist(target):
+            response.set_itemDoesntExist()
+        elif not self.inRoomOrInventoryOrContainers(itemKey):
+            response.addToPrint("There is none here.").setStatus_FailedAction("Item not in room or inventory")
+
+    # Execute (halt if target is a container and isn't open)
+        ITEM_NAME = self.objects[itemKey].getName()
+        TARGET_NAME = self.objects[target].getName()
+        PREP = self.objects[target].getPrep()
+
+        if isinstance(self.objects[target], Container) and not self.objects[target].checkIfOpen():
+            response.addToPrint(f"The {TARGET_NAME} isn't open...\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+
+        response.addToPrint(f"You put the {ITEM_NAME} {PREP} the {TARGET_NAME}...")
+        self.player.removeFromInventory(itemKey)
+        self.objects[target].addToContents(itemKey)
+
         response.addToPrint("")
         return response

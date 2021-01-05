@@ -81,8 +81,12 @@ def drop(game, userIn):
     toDrop = toCamelCase(userIn.secondInput())
     return game.dropItem(response, toDrop)
 
-def place(game, userIn):
-    pass
+def put(game, userIn):
+    response = Response("put")
+    if not userIn.hasSecondInput():
+        userIn.setSecondInput(input("What do you want to put?\n>> ").lower())
+    toPut = toCamelCase(userIn.secondInput())
+    return game.putItem(response, toPut)
 
 def take(game, userIn):
     response = Response("take")
@@ -138,7 +142,7 @@ actionsDict = {
     "look":look,
     "move":move,
     "open":open_,
-    "place":place,
+    "put":put,
     "quit":quit_,
     "smell":smell,
     "take":take,

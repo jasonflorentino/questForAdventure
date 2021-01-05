@@ -113,7 +113,7 @@ roomData = {
     "hallway1": {
         "name": "Hallway",
         "description": "The long Hallway leads to the front door in the West. The walls are covered in hunting trophies and lavish gifts from far away. There is a door that leads to the Weapons Room to the North, as well as a bunch of other doors that lead you to unadventurous parts of the house that are definitely not worthwhile going to.",
-        "shortDesc": "Mounted animal heads stare down at you with their beady, beady eyes. I think the boar just winked at you. The front door is further West. The Weapons Room is to the North. And there are a bunch of other doors that lead you to unadventurous parts of the house.",
+        "shortDesc": "The front door is further West. The Weapons Room is to the North. And there are a bunch of other doors that lead you to unadventurous parts of the house.",
         "north": "weaponsRoom",
         "east": "chamber",
         "south": "utilityCloset",
@@ -153,13 +153,13 @@ roomData = {
     "uninterestingRoom": {
         "name": "Uninteresting Room",
         "description": "Doesn't look like there's anything in here. Don't bother looking around. Certainly no chests in here. You should probably just go back North.",
-        "shortDesc": "Doesn't look like there's anything in here. You should probably just go back North.",
+        "shortDesc": "Still doesn't look like there's anything in here. You should probably just go back North.",
         "north": "hallway2",
     },
     "frontGates": {
         "name": "Front Gates",
         "description": "Ah, fresh air! Something you've clearly not had enough of recently. You are so close to adventure you can smell it. Now you just have to decide where to go.",
-        "shortDesc": "Ah, fresh air! You are so close to adventure you can smell it. Now you just have to decide where to go.",
+        "shortDesc": "That sweet, sweet air! You are so close to adventure you can smell it. Now you just have to decide where to go.",
         "odour": "Smells like adventure!",
         "north": "cavernousMountains",
         "east": "hallway2",
