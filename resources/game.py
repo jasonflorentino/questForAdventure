@@ -266,8 +266,11 @@ class Game():
             response.set_itemDoesntExist()
             response.addToPrint("")
             return response
-        elif not self.inRoomOrInventoryOrContainers(target):
+        if not self.inRoomOrInventoryOrContainers(target):
             response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+        if not isinstance(self.objects[target], Container):
+            response.addToPrint(f"You can't put anything there\n").setStatus_FailedAction("Item not a container")
             return response
 
     # Execute (halt if target is a container and isn't open)
@@ -275,8 +278,8 @@ class Game():
         TARGET_NAME = self.objects[target].getName()
         PREP = self.objects[target].getPrep()
 
-        if isinstance(self.objects[target], Container) and not self.objects[target].checkIfOpen():
-            response.addToPrint(f"The {TARGET_NAME} isn't open...\n").setStatus_FailedAction("Item not in room or inventory")
+        if not self.objects[target].checkIfOpen():
+            response.addToPrint(f"The {TARGET_NAME} isn't open...\n").setStatus_FailedAction("Container isn't open")
             return response
 
         response.addToPrint(f"You put the {ITEM_NAME} {PREP} the {TARGET_NAME}...")
@@ -285,3 +288,31 @@ class Game():
 
         response.addToPrint("")
         return response
+
+    def emptyItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
+            response.set_itemDoesntExist()
+            return response
+        elif not self.inRoomOrInventoryOrContainers(itemKey):
+            response.addToPrint("There is none here.\n").setStatus_FailedAction("Item not in room or inventory")
+            return response
+        if not isinstance(self.objects[itemKey], Container):
+            response.addToPrint("You can't empty that.\n").setStatus_FailedAction("Item not a container")
+            return response
+        if not self.objects[itemKey].checkIfOpen():
+            response.addToPrint("It's not open.\n").setStatus_FailedAction("Item isn't open")
+            return response
+        else:
+            ITEM_NAME = self.objects[itemKey].getName()
+            response.addToPrint(f"You emptied the {ITEM_NAME}...").setStatus_FailedAction("success")
+            ITEM_CONTENTS = self.objects[itemKey].getContents()
+            if len(ITEM_CONTENTS) == 0:
+                response.addToPrint(f"Nothing came out.")
+            else:
+                for item in ITEM_CONTENTS:
+                    CONTENT_NAME = self.objects[item].getName()
+                    self.objects[itemKey].removeFromContents(item)
+                    self.activeRoom.addToContents(item)
+                    response.addToPrint(f"{CONTENT_NAME} came out.")
+            response.addToPrint("")
+            return response

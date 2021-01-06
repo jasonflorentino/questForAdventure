@@ -118,7 +118,11 @@ def use(game, userIn):
     pass
 
 def empty(game, userIn):
-    pass
+    response = Response("empty")
+    if not userIn.hasSecondInput():
+       userIn.setSecondInput(input("What do you want to empty?\n>> ").lower())
+    toEmpty = toCamelCase(userIn.secondInput())
+    return game.emptyItem(response, toEmpty)
 
 def examine(game, userIn):
     response = Response("examine")
