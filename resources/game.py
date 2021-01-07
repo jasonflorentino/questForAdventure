@@ -242,7 +242,7 @@ class Game():
             if self.objects[itemKey].hasOdour():
                 response.add(self.objects[itemKey].getOdour())
             elif isinstance(self.objects[itemKey], Npc):
-                response.add(f"They pull back, alarmed and mildly repulsed.")
+                response.add(f"Why are you smelling these poor people? Haven\'t they been through enough?")
             else:
                 response.add(f"It doesn't smell like much.")
         response.add("")

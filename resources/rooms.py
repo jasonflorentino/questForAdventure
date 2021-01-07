@@ -45,13 +45,15 @@ class Room():
             return self.west
     
     def listContents(self, game, response):
-        if len(self.contents) >= 1:
-            response.add("You see:")
-            for item in self.contents:
+        response.add("You see:")
+        count = 0
+        for item in self.contents:
+            if game.objects[item].isVisible:
+                count += 1
                 response.add("- " + game.objects[item].name)
-            response.add("")
-        else:
-            response.add("You see nothing of interest.\n")
+        if count == 0:
+            response.add("Nothing of interest.")
+        response.add("")
         return response
     
     def itemInRoom(self, itemKey):
@@ -165,19 +167,21 @@ roomData = {
         "north": "cavernousMountains",
         "east": "hallway2",
         "west": "darkForest",
-        "contents": ["signpost"]
+        "contents": ["signPost"]
     },
     "cavernousMountains": {
         "name": "Cavernous Mountains",
         "description": "The mountains loom over you. A darkened crack in the northern rock face seems to lead into the mountains.",
         "north": "cave",
         "south": "frontGates",
+        "contents": ["darkenedCrack"]
     },
     "cave": {
         "name": "Cave",
         "description": "It is dark and damp in the cave. There is a crack of light coming from the south entrance. It seems to fall upon a strange stone lying on the ground.",
         "odour": "It smells like stale water and dust.",
-        "south": "cavernousMountains"
+        "south": "cavernousMountains",
+        "contents": ["strangeStone"]
     },
     "darkForest": {
         "name": "Dark Forest",
@@ -185,25 +189,29 @@ roomData = {
         "odour": "The air coming from the East is fresh. The forest smells like trees and dirt. What else?",
         "north": "troddenPath",
         "east": "frontGates",
-        "south": "unexploredForest"
+        "south": "unexploredForest",
+        "contents": ["trees"]
     },
     "unexploredForest": {
         "name": "Unexplored Forest",
         "description": "This part of the forest is wild and thick with trees and bushes. A large oak tree is in front of you. The air seems heavier here; filled with an old magic you don't quite understand.",
         "odour": "The air is humid and still. It smells like a mix of trees and dirt, as well as something you can't quite put your finger on.",
-        "north": "darkForest"
+        "north": "darkForest",
+        "contents": ["bushes", "largeOak", "strangeHoles", "fairy"]
     },
     "troddenPath": {
         "name": "Trodden Path",
         "description": "At the north end of the path you see daylight and can faintly smell smoke. Berry bushes line the path.",
         "odour": "The smoke seems to be coming from the north. Maybe there is a bonfire! Or a stake burning! Oh how I love a good stake burning.",
         "north": "theVillage",
-        "south": "darkForest"
+        "south": "darkForest",
+        "contents": ["berryBushes", "strangeBerries", "smoke"]
     },
     "theVillage": {
         "name": "The Village",
         "description": "The village seems to have been attacked! The thatch roofed cottages have been burnt down and it seems like the villagers are in distress!",
         "odour": "The smell of smoke is strong. You start to cough.",
-        "south": "troddenPath"
+        "south": "troddenPath",
+        "contents": ["thatchRoofedCottages", "concernedVillagers", "concernedVillager"]
     }
 }

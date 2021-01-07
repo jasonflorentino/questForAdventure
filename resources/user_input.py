@@ -5,7 +5,7 @@ from .game_actions import actionsDict
 
 class UserInput():
 	import re
-	reg = re.compile(r"(\w+)\s*((\w*)\s*(\w*))")
+	reg = re.compile(r"(\w+)\s*((\w*)\s*(\w*)\s*\w*)")
 
 	def __init__(self):
 		self.matches = self.reg.match(input("> ").lower())

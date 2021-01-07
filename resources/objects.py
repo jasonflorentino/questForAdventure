@@ -131,6 +131,9 @@ DEFAULT OBJECT DATA
 """
 
 itemObjectData = {
+    "nothing": {
+        "name": "???"
+    },
     "bed": {
         "name": "Bed",
         "description": "It is comfortable and warm. No place for an Adventurer like yourself!",
@@ -238,6 +241,55 @@ itemObjectData = {
         "description": "You question your life choices.",
         "isTakeable": True,
         "takeResp": 'Of course. Sure. Why not.',
+    },
+    "darkenedCrack": {
+        "name": "Darkened Crack",
+        "description": "A crack just barely big enough for you to fit through. A normal person would fit comfortably.",
+        "isVisible": True,
+    },
+    "strangeStone": {
+        "name": "Strange Stone",
+        "description": "It seems to be covered in small etchings and sparkles slightly. There are five slender grooves along the sides, placed so as to fit comfortably in your hand. It seems to be an ancient artifact.",
+        "isVisible": True,
+        "isTakeable": True,
+    },
+    "trees": {
+        "name": "Trees",
+        "description": "Tall trees surround you. They seem to get denser to the South.",
+        "isVisible": True,
+    },
+    "bushes": {
+        "name": "Bushes",
+        "description": "These bushes seem to be covered in thorns. Maybe to keep something out?",
+        "isVisible": True,
+    },
+    "largeOak": {
+        "name": "Large Oak",
+        "description": "It seems to be centuries old due to its size. If that was the case with people, I would guess you were centuries old as well.\nThe tree has an assortment of strange holes throughout it.",
+        "isVisible": True,
+    },
+    "berryBushes": {
+        "name": "Berry Bushes",
+        "description": "These bushes are covered in strange little berries. They don't look very appetizing.",
+        "isVisible": True,
+    },
+    "strangeBerries": {
+        "name": "Strange Berries",
+        "description": "The berries are black. That can't be good.",
+        "isTakeable": True,
+        "isUsable": True,
+        "odour": "They smell sour."
+    },
+    "smoke": {
+        "name": "Smoke",
+        "description": "The smoke seems to be coming from the north. Maybe there is a bonfire! Or a stake burning! Oh how I love a good stake burning.",
+        "odour": "Smoky. Interesting."
+    },
+    "thatchRoofedCottages": {
+        "name": "Thatch Roofed Cottages",
+        "description": "Still smoking. It seems as though the attack was recent.",
+        "isVisible": True,
+        "odour": "Smells like burnt dreams."
     }
 }
 
@@ -247,7 +299,6 @@ containerObjectData = {
         "description": "A large mahogany wardrobe.",
         "odour": "This smells like grandma: mothballs and disappointment.",
         "isVisible": True,
-        "isContainer": True,
         "isOpen": False,
         "isCloseable": True,
         "contents": ["armour"]
@@ -263,7 +314,6 @@ containerObjectData = {
         "isUsed": False,
         "takeResp": "Why? I guess you could gross out your enemies with this.",
         "useResp": "You feel ... relieved.",
-        "isContainer": True,
         "isOpen": False,
         "isCloseable": True,
     },
@@ -276,7 +326,6 @@ containerObjectData = {
         "isReusable": True,
         "takeResp": "What? Are you going to clean your chamber pot with this?",
         "useResp": "You pour its contents onto the floor.",
-        "isContainer": True,
         "isOpen": True,
         "isCloseable": False,
         "contents": ["soapyWater"]       
@@ -285,7 +334,6 @@ containerObjectData = {
         "name": "Dusty Shelf",
         "description": "Looks like the one place in the house that doesn't get cleaned.",
         "isVisible": True,
-        "isContainer": True,
         "isOpen": True,
         "isCloseable": False,
         "preposition": "on top"
@@ -296,14 +344,30 @@ containerObjectData = {
         "odour": "It smells old and musty.",
         "useResp": "Wow. You don't give up, do you? No need to look at anything in here. Just dust and cobwebs.",
         "isVisible": True,
-        "isContainer": True,
         "isOpen": False,
         "isCloseable": True,
         "contents": ["note"]    
+    },
+    "strangeHoles": {
+        "name": "Strange Holes",
+        "description": "There seems to be a faint glow coming from inside one of the holes. It darts quickly out of your vision. I think it was a fairy!",
+        "isOpen": True,
+        "isCloseable": False,
+        "contents": ["nothing"]
     }
-
 }
 
 npcObjectData = {
-
+    "fairy": {
+        "name": "Fairy",
+        "description": "The fairy peeks her head out of one of the holes. She is quite flustered.",
+    },
+    "concernedVillager": {
+        "name": "Concerned Villager",
+        "description": "The man paces in front of his freshly burnt home. He looks around eagerly for someone to talk to."
+    },
+    "cryingVillagers": {
+        "name": "Crying Villagers",
+        "description": "A group of villagers huddled together, weeping loudly. Maybe you should talk to someone to figure out what happened, instead of just standing there with your mouth open."
+    }
 }
