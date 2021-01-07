@@ -12,15 +12,14 @@ def move(game, userIn, direction=False):
         if direction in ("north", "east", "south", "west"):
             pass
         else:
-            return response.addToPrint("That's not a direction\n").setStatus_BadInput()
+            return response.add("That's not a direction\n").setStatus_BadInput()
 
-    # Check if there's a room at given direction
     newLocation = game.getDirectionTarget(direction)
 
     if newLocation:
         return game.movePlayer(newLocation, response).setGameStatus(direction)
     else:
-        return response.addToPrint("You can't go that way.\n").setStatus_FailedAction(f"No room at {direction}")
+        return response.add("You can't go that way.\n").setStatus_FailedAction(f"No room at {direction}")
 
 def north(game, userIn):
     return move(game, userIn, "north")
@@ -37,19 +36,19 @@ def west(game, userIn):
 def help_(game, userIn):
     response = Response("help")
     if game.helpCounter < 1:
-        response.addToPrint("You call for help...\nThere's no answer.")
+        response.add("You call for help...\nThere's no answer.")
     elif game.helpCounter < 2:
-        response.addToPrint("Well, if I helped you that wouldn't be any fun now would it?")
+        response.add("Well, if I helped you that wouldn't be any fun now would it?")
     elif game.helpCounter < 3:
-        response.addToPrint("I don't know, try a verb?")
+        response.add("I don't know, try a verb?")
     elif game.helpCounter < 4:
-        response.addToPrint("You tried that verb already...")
+        response.add("You tried that verb already...")
     elif game.helpCounter < 5:
-        response.addToPrint("Here's one: 'quit'")
+        response.add("Here's one: 'quit'")
     else:
-        response.addToPrint("You call for help...\nThere's no answer.")
+        response.add("You call for help...\nThere's no answer.")
     game.incrementHelpCounter()
-    response.addToPrint("")
+    response.add("")
     return response
 
 def inventory(game, userIn):
@@ -70,10 +69,10 @@ def quit_(game, userIn):
         if sure in ("y", "yes", "n", "no"):
             break
     if sure in ("y", "yes"):
-        response.addToPrint("Quitting...\n").setGameStatus("quit")
+        response.add("Quitting...\n").setGameStatus("quit")
         return response
     else:
-        response.addToPrint("I knew you still had it in you!\n").setGameStatus("continue")
+        response.add("I knew you still had it in you!\n").setGameStatus("continue")
         return response
 
 def xyzzy(game, userIn):

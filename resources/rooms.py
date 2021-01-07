@@ -46,12 +46,12 @@ class Room():
     
     def listContents(self, game, response):
         if len(self.contents) >= 1:
-            response.addToPrint("You see:")
+            response.add("You see:")
             for item in self.contents:
-                response.addToPrint("- " + game.objects[item].name)
-            response.addToPrint("")
+                response.add("- " + game.objects[item].name)
+            response.add("")
         else:
-            response.addToPrint("You see nothing of interest.\n")
+            response.add("You see nothing of interest.\n")
         return response
     
     def itemInRoom(self, itemKey):

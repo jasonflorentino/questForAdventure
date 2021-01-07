@@ -13,7 +13,7 @@ class Response():
         self.gameStatus = None
         self.toPrint = []
     
-    def addToPrint(self, string):
+    def add(self, string):
         self.toPrint.append(string)
         return self
     
@@ -39,5 +39,5 @@ class Response():
         return self
     
     def set_itemDoesntExist(self):
-        self.addToPrint("That's not a thing.").setStatus_FailedAction("Item doesn't exist")
+        self.add("That's not a thing.").setStatus_FailedAction("Item doesn't exist")
         return self

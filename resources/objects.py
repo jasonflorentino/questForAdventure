@@ -57,16 +57,16 @@ class Item(GameObject):
     
     def getsTaken(self, response):
         if self.takeResp:
-            response.addToPrint(self.takeResp + "\n")
+            response.add(self.takeResp + "\n")
         else:
-            response.addToPrint("")
+            response.add("")
         return response
 
     def getsDropped(self, response):
         if self.dropResp:
-            response.addToPrint(self.dropResp + "\n")
+            response.add(self.dropResp + "\n")
         else:
-            response.addToPrint("")
+            response.add("")
         return response
 
 class Container(Item):
