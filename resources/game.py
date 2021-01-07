@@ -22,9 +22,14 @@ class Game():
         self.rooms = createRooms() # Dictionary of "roomNam": Room Object
         self.objects = createObjects() # Dictionary of "objectName": Game Object
         self.activeRoom = False # Stores reference to current Room Object
+        self.helpCounter = 0
     
     def incrementTurnCount(self):
         self.turnCount += 1
+        return self
+    
+    def incrementHelpCounter(self):
+        self.helpCounter += 1
         return self
     
     def eventCheck(self):

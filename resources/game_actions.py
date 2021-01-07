@@ -35,7 +35,22 @@ def west(game, userIn):
     return move(game, userIn, "west")
 
 def help_(game, userIn):
-    pass
+    response = Response("help")
+    if game.helpCounter < 1:
+        response.addToPrint("You call for help...\nThere's no answer.")
+    elif game.helpCounter < 2:
+        response.addToPrint("Well, if I helped you that wouldn't be any fun now would it?")
+    elif game.helpCounter < 3:
+        response.addToPrint("I don't know, try a verb?")
+    elif game.helpCounter < 4:
+        response.addToPrint("You tried that verb already...")
+    elif game.helpCounter < 5:
+        response.addToPrint("Here's one: 'quit'")
+    else:
+        response.addToPrint("You call for help...\nThere's no answer.")
+    game.incrementHelpCounter()
+    response.addToPrint("")
+    return response
 
 def inventory(game, userIn):
     response = Response("inventory")
