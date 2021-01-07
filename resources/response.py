@@ -17,7 +17,7 @@ class Response():
         self.toPrint.append(string)
         return self
     
-    def setGameStatus(self, status):
+    def status(self, status):
         self.gameStatus = status
         return self
 

@@ -17,7 +17,7 @@ def move(game, userIn, direction=False):
     newLocation = game.getDirectionTarget(direction)
 
     if newLocation:
-        return game.movePlayer(newLocation, response).setGameStatus(direction)
+        return game.movePlayer(newLocation, response).status(direction)
     else:
         return response.add("You can't go that way.\n").setStatus_FailedAction(f"No room at {direction}")
 
@@ -54,12 +54,12 @@ def help_(game, userIn):
 def inventory(game, userIn):
     response = Response("inventory")
     game.listInventory(response)
-    return response.setGameStatus("Show inventory")
+    return response.status("Show inventory")
 
 def look(game, userIn):
     response = Response("look")
     game.getRoomContents(response)
-    return response.setGameStatus("Room Status")
+    return response.status("Room Status")
 
 def quit_(game, userIn):
     response = Response("quit")
@@ -69,10 +69,10 @@ def quit_(game, userIn):
         if sure in ("y", "yes", "n", "no"):
             break
     if sure in ("y", "yes"):
-        response.add("Quitting...\n").setGameStatus("quit")
+        response.add("Quitting...\n").status("quit")
         return response
     else:
-        response.add("I knew you still had it in you!\n").setGameStatus("continue")
+        response.add("I knew you still had it in you!\n").status("continue")
         return response
 
 def xyzzy(game, userIn):
