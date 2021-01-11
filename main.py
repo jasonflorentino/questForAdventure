@@ -1,6 +1,8 @@
 #! Python3
 # main.py - Runs the main game program
 
+# automate tests by writing sequential commands in "test" and running: $ python3 main.py < test
+
 from time import sleep
 
 from resources import util

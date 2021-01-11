@@ -11,15 +11,27 @@ class GameObject():
         self.description = arguments.get("description", False)
         self.odour = arguments.get("odour", False)
         self.isVisible = arguments.get("isVisible", False)
+        self.status = arguments.get("status", "")
     
     def getName(self):
-        return self.name
+        fullName = self.name
+        if len(self.status) > 0:
+            fullName += f" ({self.status})"
+        return fullName
 
     def getDescription(self):
         return self.description
 
     def toggleVisibility(self):
         self.isVisible = not self.isVisible
+        return self
+
+    def makeVisible(self):
+        self.isVisible = True
+        return self
+
+    def makeInvisible(self):
+        self.isVisible = False
         return self
     
     def hasOdour(self):
@@ -37,16 +49,35 @@ class Item(GameObject):
        self.isTakeable = arguments.get("isTakeable", False)
        self.isUseable = arguments.get("isUseable", False)
        self.isReusable = arguments.get("isReusable", False)
-       self.isUsed = arguments.get("isUsed", False)
+       self.isInUse = arguments.get("isInUse", False)
        self.takeResp = arguments.get("takeResp", False)
        self.useResp = arguments.get("useResp", False)
        self.dropResp = arguments.get("dropResp", False)
+       self.isWearable = arguments.get("isWearable", False)
+       self.isBeingWorn = arguments.get("isBeingWorn", False)
+       self.wearResp = arguments.get("wearResp", False)
+       self.useCount = arguments.get("useCount", 0)
+    
+    def wearable(self):
+        if self.isWearable:
+            return True
+        return False
+
+    def beingWorn(self):
+        if self.isBeingWorn:
+            return True
+        return False
 
     def takeable(self):
         if self.isTakeable:
             return True
         return False
     
+    def inUse(self):
+        if self.isInUse:
+            return True
+        return False
+
     def makeTakeable(self):
         self.isTakeable = True
         return self
@@ -68,6 +99,29 @@ class Item(GameObject):
         else:
             response.add("")
         return response
+    
+    def getsWorn(self):
+        self.status = "Being Worn"
+        if self.wearResp:
+            return self.wearResp
+        else:
+            return "You look...good?"
+    
+    def getsRemoved(self):
+        self.status = ""
+        return self
+        
+    def incrementUseCount(self):
+        self.useCount += 1
+        return self
+    
+    def toggleInUse(self):
+        self.isInUse = not self.isInUse
+        return self
+
+    def toggleBeingWorn(self):
+        self.isBeingWorn = not self.isBeingWorn
+        return self
 
 class Container(Item):
     def __init__(self, arguments):
@@ -159,6 +213,7 @@ itemObjectData = {
         "odour": "Smells like metal. Who would have thought?",
         "takeResp": "Oof! This weighs a tonne! You've been sitting around too long in your underpants eating sweets. You should put the armour on so you can at least look the part.",
         "useResp": "It fits you like a glove. It looks like your boots could be buffed out a bit though. You should examine the mirror to see how you look.",
+        "isWearable": True,
     },
     "huntingTrophies": {
         "name": "Hunting Trophies",
@@ -311,7 +366,6 @@ containerObjectData = {
         "isTakeable": True,
         "isUseable": True,
         "isReusable": True,
-        "isUsed": False,
         "takeResp": "Why? I guess you could gross out your enemies with this.",
         "useResp": "You feel ... relieved.",
         "isOpen": False,

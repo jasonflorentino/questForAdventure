@@ -145,6 +145,20 @@ def examine(game, userIn):
     itemKey = toCamelCase(userIn.word2)
     return game.examineItem(response, itemKey)
 
+def wear(game, userIn):
+    response = Response("wear")
+    if not userIn.hasSecondInput():
+        userIn.setSecondInput(input("What do you want to wear?\n>> ").lower())
+    toWear = toCamelCase(userIn.word2)
+    return game.wearItem(response, toWear)
+
+def remove(game, userIn):
+    response = Response("remove")
+    if not userIn.hasSecondInput():
+        userIn.setSecondInput(input("What do you want to remove?\n>> ").lower())
+    toWear = toCamelCase(userIn.word2)
+    return game.removeItem(response, toWear)
+
 actionsDict = {
     "north":north,
     "south":south,
@@ -162,10 +176,12 @@ actionsDict = {
     "open":open_,
     "put":put,
     "quit":quit_,
+    "remove":remove,
     "smell":smell,
     "take":take,
     "talk":talk,
     "use":use,
+    "wear":wear,
     "xyzzy":xyzzy,
     }
 

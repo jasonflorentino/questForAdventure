@@ -126,11 +126,11 @@ class Game():
     
     def makeContentsTakeable(self, itemKey):
         for item in self.objects[itemKey].getContents():
-            self.objects[item].makeTakeable()
+            self.objects[item].makeVisible().makeTakeable()
 
     def makeContentsUntakeable(self, itemKey):
         for item in self.objects[itemKey].getContents():
-            self.objects[item].makeUntakeable()
+            self.objects[item].makeInvisible().makeUntakeable()
     
     def examineItem(self, response, itemKey):
         if self.itemDoesntExist(itemKey):
@@ -178,10 +178,12 @@ class Game():
             response.add("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
             return response
         else:
-            itemName = self.objects[itemKey].getName()
+            if self.objects[itemKey].beingWorn():
+                self.objects[itemKey].toggleBeingWorn().getsRemoved()
+            ITEM_NAME = self.objects[itemKey].getName()
             self.player.removeFromInventory(itemKey)
             self.activeRoom.addToContents(itemKey)
-            response.add(f"You dropped the {itemName}.").setStatus_Success("game.dropItem()")
+            response.add(f"You dropped the {ITEM_NAME}.").setStatus_Success("game.dropItem()")
             return self.objects[itemKey].getsDropped(response)
     
     def openItem(self, response, itemKey):
@@ -319,5 +321,43 @@ class Game():
                     self.objects[itemKey].removeFromContents(item)
                     self.activeRoom.addToContents(item)
                     response.add(f"{CONTENT_NAME} came out.")
+            response.add("")
+            return response
+    
+    def wearItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
+            response.set_itemDoesntExist()
+            return response
+        elif self.itemIsntInPlayerInventory(itemKey):
+            response.add("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
+            return response
+        elif not self.objects[itemKey].wearable():
+            response.add("You can't wear that.\n").setStatus_FailedAction("Item not wearable")
+            return response
+        elif self.objects[itemKey].inUse():
+            response.add("You're already using that.\n").setStatus_FailedAction("Item already in use")
+            return response
+        else:
+            self.objects[itemKey].toggleBeingWorn().incrementUseCount()
+            ITEM_NAME = self.objects[itemKey].getName()
+            response.add(f"You put on the {ITEM_NAME}...").setStatus_FailedAction("success")
+            response.add(self.objects[itemKey].getsWorn())
+            response.add("")
+            return response
+    
+    def removeItem(self, response, itemKey):
+        if self.itemDoesntExist(itemKey):
+            response.set_itemDoesntExist()
+            return response
+        elif self.itemIsntInPlayerInventory(itemKey):
+            response.add("You don't have one of those.\n").setStatus_FailedAction("Item not in inventory")
+            return response
+        elif not self.objects[itemKey].beingWorn():
+            response.add("You aren't wearing that.\n").setStatus_FailedAction("Item not bring worn")
+            return response
+        else:
+            self.objects[itemKey].toggleBeingWorn().getsRemoved()
+            ITEM_NAME = self.objects[itemKey].getName()
+            response.add(f"You took off the {ITEM_NAME}...").setStatus_FailedAction("success")
             response.add("")
             return response
